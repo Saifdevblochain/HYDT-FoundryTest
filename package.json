@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "choco": "^0.2.1",
+    "genhtml-js": "^0.1.0"
+  }
+}

@@ -1,0 +1,71 @@
+{
+	"id": "15a142642c36f4560a75ef5ddeec9518",
+	"_format": "hh-sol-build-info-1",
+	"solcVersion": "0.8.18",
+	"solcLongVersion": "0.8.18+commit.87f61d96",
+	"input": {
+		"language": "Solidity",
+		"sources": {
+			"script/Counter.s.sol": {
+				"content": "// // SPDX-License-Identifier: MIT\r\n// pragma solidity ^0.8.18;\r\n\r\n// import \"forge-std/Test.sol\";\r\n// import {Counter} from \"../src/Counter.sol\";\r\n\r\n// contract CounterTest is Test {\r\n//     Counter public counter;\r\n\r\n//     // Invoked before each test\r\n//     function setUp() public {\r\n//         counter = new Counter();\r\n//     }\r\n\r\n//     // Test must be external or public\r\n//     function testInc() public {\r\n//         counter.inc();\r\n//         assertEq(counter.count(), 1);\r\n//     }\r\n\r\n//     function testFailDec() public {\r\n//         // This will fail with underflow\r\n//         // count = 0 --> count -= 1\r\n//         counter.dec();\r\n//     }\r\n\r\n//     // Same as testFailDec\r\n//     function testDecUnderflow() public {\r\n//         vm.expectRevert(stdError.arithmeticError);\r\n//         counter.dec();\r\n//     }\r\n\r\n//     function testDec() public {\r\n//         counter.inc();\r\n//         counter.inc();\r\n//         counter.dec();\r\n//         assertEq(counter.count(), 1);\r\n//     }\r\n// }"
+			}
+		},
+		"settings": {
+			"optimizer": {
+				"enabled": false,
+				"runs": 200
+			},
+			"outputSelection": {
+				"*": {
+					"": [
+						"ast"
+					],
+					"*": [
+						"abi",
+						"metadata",
+						"devdoc",
+						"userdoc",
+						"storageLayout",
+						"evm.legacyAssembly",
+						"evm.bytecode",
+						"evm.deployedBytecode",
+						"evm.methodIdentifiers",
+						"evm.gasEstimates",
+						"evm.assembly"
+					]
+				}
+			}
+		}
+	},
+	"output": {
+		"errors": [
+			{
+				"component": "general",
+				"errorCode": "3420",
+				"formattedMessage": "Warning: Source file does not specify required compiler version! Consider adding \"pragma solidity ^0.8.18;\"\n--> script/Counter.s.sol\n\n",
+				"message": "Source file does not specify required compiler version! Consider adding \"pragma solidity ^0.8.18;\"",
+				"severity": "warning",
+				"sourceLocation": {
+					"end": -1,
+					"file": "script/Counter.s.sol",
+					"start": -1
+				},
+				"type": "Warning"
+			}
+		],
+		"sources": {
+			"script/Counter.s.sol": {
+				"ast": {
+					"absolutePath": "script/Counter.s.sol",
+					"exportedSymbols": {},
+					"id": 1,
+					"license": "MIT",
+					"nodeType": "SourceUnit",
+					"nodes": [],
+					"src": "1005:0:0"
+				},
+				"id": 0
+			}
+		}
+	}
+}

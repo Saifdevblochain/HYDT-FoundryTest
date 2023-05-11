@@ -63,6 +63,9 @@
 //         assertEq(depositFee,15);
 //         assertTrue(earn.hasRole(control.GOVERNOR_ROLE(), address(this)));
 //         assertTrue(earn.hasRole(control.DEFAULT_ADMIN_ROLE(), address(this)));
+//          uint length= earn.poolLength();
+//         uint expectedLength= 3;
+//         assertEq(length, expectedLength);
 //     }
 
 //     function test_InitializeWithHydtAddressZero() public {

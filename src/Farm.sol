@@ -248,6 +248,7 @@ contract Farm is AccessControl {
         pool.accHYGTPerShare += ((HYGTReward * 1e12) / lpSupply);
         pool.lastRewardBlock = block.number;
     }
+
     function deposit(uint256 pid, uint256 amount) external {
         PoolInfo storage pool = poolInfo[pid];
         UserInfo storage userData = userInfo[pid][_msgSender()];
@@ -275,7 +276,6 @@ contract Farm is AccessControl {
     function withdraw(uint256 pid, uint256 amount) external {
         PoolInfo storage pool = poolInfo[pid];
         UserInfo storage userData = userInfo[pid][_msgSender()];
-
         require(userData.amount >= amount, "Farm: not good");
         updatePool(pid);
         uint256 pending = ((userData.amount * pool.accHYGTPerShare) / 1e12) - userData.rewardDebt;

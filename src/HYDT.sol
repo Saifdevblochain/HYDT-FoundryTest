@@ -31,10 +31,7 @@ contract HYDT is AccessControl, ERC20Permit, IHYDT {
 
         /// @dev 10,000 Tokens minted at contract creation
         _mint(treasury_, 10000 * 1e18);
-        _mint(msg.sender, 10000 * 1e18); // remove
-
-
-
+        _mint(_msgSender(), 10000 * 1e18); // remove
         _initializer = _msgSender();
     }
 
@@ -57,17 +54,14 @@ contract HYDT is AccessControl, ERC20Permit, IHYDT {
         _grantRole(CALLER_ROLE, earn_);
         // TODO future proofing needed?
         _grantRole(DEFAULT_ADMIN_ROLE, _msgSender());
-        _mint(msg.sender, 10000 * 1e18); // remove
-
-
         _isInitialized = true;
     }
 
     // TODO remove this function
-    function test_addresses(address control_, address earn_) external {
-        _grantRole(CALLER_ROLE, control_);
-        _grantRole(CALLER_ROLE, earn_);
-    }
+    // function test_addresses(address control_, address earn_) external {
+    //     _grantRole(CALLER_ROLE, control_);
+    //     _grantRole(CALLER_ROLE, earn_);
+    // }
 
     /* ========== FUNCTIONS ========== */
 

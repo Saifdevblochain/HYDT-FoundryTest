@@ -191,27 +191,7 @@ contract Farm is AccessControl {
         }
     }
 
-    /**
-     * @notice Updates reward variables of the given pool to be up-to-date.
-     * @param pid The unique id of the pool.
-     */
-    function updatePool(uint256 pid) public {
-        PoolInfo storage pool = poolInfo[pid];
-
-        if (block.number <= pool.lastRewardBlock) {
-            return;
-        }
-        uint256 lpSupply = pool.lpToken.balanceOf(address(this));
-
-        if (lpSupply == 0) {
-            pool.lastRewardBlock = block.number;
-            return;
-        }
-        uint256 numberOfBlocks = block.number - pool.lastRewardBlock;
-        uint256 HYGTReward = (numberOfBlocks * HYGTPerBlock * pool.allocPoint) / totalAllocPoint;
-        pool.accHYGTPerShare += ((HYGTReward * 1e12) / lpSupply);
-        pool.lastRewardBlock = block.number;
-    }
+   
 
     /**
      * @notice Gets all pending `HYGT` for a given user.
@@ -246,6 +226,28 @@ contract Farm is AccessControl {
     /**
      * @notice Deposit `LP Tokens` to recieve rewards in `HYGT`.
      */
+
+      /**
+     * @notice Updates reward variables of the given pool to be up-to-date.
+     * @param pid The unique id of the pool.
+     */
+    function updatePool(uint256 pid) public {
+        PoolInfo storage pool = poolInfo[pid];
+
+        if (block.number <= pool.lastRewardBlock) {
+            return;
+        }
+        uint256 lpSupply = pool.lpToken.balanceOf(address(this));
+
+        if (lpSupply == 0) {
+            pool.lastRewardBlock = block.number;
+            return;
+        }
+        uint256 numberOfBlocks = block.number - pool.lastRewardBlock;
+        uint256 HYGTReward = (numberOfBlocks * HYGTPerBlock * pool.allocPoint) / totalAllocPoint;
+        pool.accHYGTPerShare += ((HYGTReward * 1e12) / lpSupply);
+        pool.lastRewardBlock = block.number;
+    }
     function deposit(uint256 pid, uint256 amount) external {
         PoolInfo storage pool = poolInfo[pid];
         UserInfo storage userData = userInfo[pid][_msgSender()];

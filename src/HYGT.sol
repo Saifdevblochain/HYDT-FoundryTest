@@ -113,10 +113,10 @@ contract HYGT is AccessControl, ERC20Permit, IHYGT {
     }
 
     // TODO remove this function
-    function test_addresses(address earn_, address farm_) external {
-        _grantRole(CALLER_ROLE, earn_);
-        _grantRole(CALLER_ROLE, farm_);
-    }
+    // function test_addresses(address earn_, address farm_) external {
+    //     _grantRole(CALLER_ROLE, earn_);
+    //     _grantRole(CALLER_ROLE, farm_);
+    // }
 
     /* ========== FUNCTIONS ========== */
 

@@ -311,22 +311,34 @@ contract EarnTest is EarnEvents,Test {
         uint result =earn.getPayout(address(this),0);
         assertGt(result,0);
         
+    }
 
-        // earn.updatePool( uint8(0));
-        // earn.claimPayout(uint(0));
-        // uint balanceAfterUnstake = hydt.balanceOf(address(this));
-        // uint resultCheck = balanceAfterUnstake- balanceBeforeUnstake;
+    function test_claimPayout_StakingDataUpdate()  public {
+        initializing();
+        hydt.approve(address(earn), uint(100000e18));
+        uint _amount = uint(10e18);
+                // staking here
+        // vm.warp(1683705649);
+        earn.stake(_amount, 0);
+                                    // 5401, 1, 0
+        (,, ,,, uint endTime ,uint stakinglastClaimTime,uint rewardDebt)= earn.getStakings(address(this), uint(0));
+        vm.warp(endTime-12);
+        vm.expectEmit(true, false, false, false);
+        emit Payout(address(this), uint(0), uint(10134074000000000000));
+        earn.claimPayout( 0);
+                                // 5401, 5341, 59799999999992950000
+        (,, ,,, uint endTime1 ,uint stakinglastClaimTime1,uint rewardDebt1)= earn.getStakings(address(this), uint(0));
+        uint expectedstakinglastClaimTime1=uint(5341);
+        uint expectedrewardDebt1=uint(59799999999992950000);
+        
+        assertEq(stakinglastClaimTime1, expectedstakinglastClaimTime1 );
+        assertEq(rewardDebt1, expectedrewardDebt1 );
+        
 
-        // assertEq(resultCheck,uint(10247940000000000000));
-        // uint balanceAfterUnstakehygt = hygt.balanceOf(address(this));
-        // // console.logUint(balanceAfterUnstakehygt);
-        // assertEq(balanceAfterUnstakehygt, uint(89999999999995550000) );
-        // earn.poolInfo(0);
-        // earn.poolShares(0,0);
-        // console.logUint(hygt.balanceOf(address(this)));
-        // (,,,,,,,uint256 rewardDebt1)= earn.getStakings(address(this), uint(0));
-
-        // console.logUint(uint(resultCheck));
+        // // checking Rewards after a sepecific time
+        // uint result =earn.getPayout(address(this),0);
+        // assertGt(result,0);
+        
     }
 
     function test_claimPayout_DeadlinePassedPending()  public {
@@ -440,20 +452,78 @@ contract EarnTest is EarnEvents,Test {
     function test_updatePool( ) public {
         initializing();
         hydt.approve(address(earn), uint(100000e18));
-        vm.warp(1683705649);
+        vm.warp(1683788870);
 
         uint8 stakeType = uint8(0);
         uint _amount = uint(10e18);
         earn.stake(_amount, stakeType);
-        vm.warp(1683712049);
+        (,,uint256 amount,,,,uint lastClaimTime,)= earn.getStakings(address(this), uint(0));
+        vm.warp(1683794196);
         earn.updatePool( uint8(0));
-        earn.getPending(address(this), uint8(0));
-        earn.poolInfo(stakeType);
-        earn.poolShares(0,0);
+        vm.warp(1683794273);
+        uint pending = earn.getPending(address(this), uint8(0));
+        assertEq(pending, uint(89999999999995550000));
     }
-    // 48483333333323700000
 
-    // 0x0000000000000000000000000000000000000000
+    function test_getPendingTimeGreaterthanLastRewardTime( ) public {
+        initializing();
+        hydt.approve(address(earn), uint(100000e18));
+        vm.warp(1683788850);
+
+        uint8 stakeType = uint8(0);
+        uint _amount = uint(10e18);
+        earn.stake(_amount, stakeType);
+        (,,uint256 amount1,,,,uint lastClaimTime,)= earn.getStakings(address(this), uint(0));
+        vm.warp(1683788851);
+        earn.claimPayout(0);
+        vm.expectRevert("Earn: no amount to withdraw");
+        vm.warp(1683788850);
+        earn.claimPayout(0);
+        
+        // uint pending = earn.getPending(address(this), uint8(0));
+        // (,,uint256 amount2,,,,uint lastClaimTime1,)= earn.getStakings(address(this), uint(0));
+        // console.logUint(pending);
+        // assertEq(pending, uint(89999999999995550000));
+    }
+
+    function test_pendingBatch( ) public {
+        initializing();
+        hydt.approve(address(earn), uint(100000e18));
+        vm.warp(1683788870);
+        uint8 stakeType = uint8(0);
+        uint _amount = uint(10e18);
+        earn.stake(_amount, stakeType);
+        earn.stake(_amount, stakeType);
+        vm.warp(1683794196);
+        earn.updatePool( uint8(0));
+        vm.warp(1683794273);
+        uint res= earn.getStakingLengths(address(this));
+        uint totalPending;
+        for (uint256 i = 0 ; i < res ; i++) {
+            totalPending +=   earn.getPending(address(this), i);
+        }
+        uint pending = earn.getPendingBatch(address(this));
+        assertEq(pending, totalPending);
+    }
+
+    function test_getPendingType( ) public {
+        initializing();
+        hydt.approve(address(earn), uint(100000e18));
+        vm.warp(1683788870);
+        uint8 stakeType = uint8(0);
+        uint _amount = uint(10e18);
+        earn.stake(_amount, stakeType);
+        earn.stake(_amount, stakeType);
+        vm.warp(1683794196);
+        earn.updatePool( uint8(0));
+        vm.warp(1683794273);
+        uint pending = earn.getPendingType(address(this), uint8(0));
+        assertEq(pending, uint(89999999999985700000));
+    }
+
+    // // // 48483333333323700000
+
+    // // // 0x0000000000000000000000000000000000000000
 
     function test_massUpdatePool() public {
         initializing();
@@ -463,6 +533,17 @@ contract EarnTest is EarnEvents,Test {
         uint res= earn.getStakingLengths(address(this));
         assertEq(res,1);
         earn.massUpdatePools();
+    }
+
+    function test_poolLength() public{
+        initializing();
+        hydt.approve(address(earn), uint(100000e18));
+        uint _amount = uint(10e18);
+        earn.stake(_amount, 0);
+        vm.warp(2343242342);
+        uint length= earn.poolLength();
+        uint expectedLength= 3;
+        assertEq(length, expectedLength);
     }
     
     

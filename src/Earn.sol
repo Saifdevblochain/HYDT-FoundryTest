@@ -257,7 +257,7 @@ contract Earn is AccessControl {
         PoolShare[] memory shares = poolShares[staking.stakeType];
         uint256 endTime = block.timestamp > staking.endTime ? staking.endTime : block.timestamp;
         if (endTime < shares[0].lastRewardTime) {
-            return shares[0];
+            return shares[0]; // set initial mint start time to future = 
         } else if (endTime >= shares[shares.length - 1].lastRewardTime) {
             return shares[shares.length - 1];
         }
@@ -446,6 +446,7 @@ contract Earn is AccessControl {
         require(staking.status, "Earn: invalid staking");
         uint256 amountMint = getPayout(_msgSender(), index);
         updatePool(staking.stakeType);
+        
         uint256 pending = getPending(_msgSender(), index);
 
         if (block.timestamp < staking.endTime) {

@@ -179,6 +179,8 @@ contract HYGT is AccessControl, ERC20Permit, IHYGT {
      * @dev Unlocks vested tokens to their corresponding locker.
      */
     function unlock() external onlyRole(LOCKER_ROLE) {
+        // 36 intervals 
+        // 40 million , 20 milllion
         Lock storage lock = lockups[_msgSender()];
 
         require(lock.status, "HYGT: invalid lock");

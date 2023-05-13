@@ -121,8 +121,8 @@ contract Control is AccessControl, OpsReady {
         RESERVE = IReserve(reserve_);
 
         _initialMints.startTime = initialMintStartTime_;
-        _dailyInitialMints.startTime = initialMintStartTime_;
         _initialMints.endTime = initialMintStartTime_ + THREE_MONTHS_TIME;
+        _dailyInitialMints.startTime = initialMintStartTime_;
         _dailyInitialMints.endTime = initialMintStartTime_ + ONE_DAY_TIME;
 
         _delegateApprove(IERC20(hydt_), address(PANCAKE_ROUTER), true);
@@ -289,7 +289,7 @@ contract Control is AccessControl, OpsReady {
      */
     function execute(uint8 argument) external onlyRole(CALLER_ROLE) {
         uint256 price = getCurrentPrice();
-
+        
         if (argument == 0 && price > PRICE_UPPER_BOUND) {
             _mint(price);
         } else if (argument == 1 && price < PRICE_LOWER_BOUND) {

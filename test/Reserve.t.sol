@@ -4,19 +4,15 @@ pragma solidity ^0.8.18;
 import "forge-std/Test.sol";
 import {Control} from "../src/Control.sol";
 import {Reserve} from "../src/Reserve.sol";
-import {WBNB} from "../src/WBNB.sol";
 
-contract ControlTest is Test {
-    uint256 initialMintStartTime_ = uint256(block.timestamp);
+contract ReserveTest is Test {
     Control public control;
     Reserve public reserve;
-    WBNB public wbnb;
 
     // Invoked before each test
     function setUp() public {
         reserve = new Reserve();
         control = new Control();
-        wbnb = new WBNB();
     }
 
     function test_Initialize ( ) public {
@@ -24,22 +20,21 @@ contract ControlTest is Test {
         assertTrue(true);
     }
     
-    function test_InitializeWithZeroAddress ( ) public {
+    function test_Initialize_RevertOn_NonInitializer ( ) public {
         vm.prank(address(0));
-        vm.expectRevert();
+        vm.expectRevert("Reserve: caller is not the initializer");
         reserve.initialize(address(control));
     }
 
-    function test_InitializeWithControlZero ( ) public {
-        address control_= address(0);
-        vm.expectRevert();
-        reserve.initialize(control_);
+    function test_Initialize_RevertOn_ControlZeroAddress( ) public {
+        vm.expectRevert("Reserve: invalid Control address");
+        reserve.initialize(address(0));
     }
 
     function test_Withdraw (uint amount ) public {
          
         reserve.initialize(address(control));
-        vm.expectRevert();
+        vm.expectRevert("AccessControl: account 0x7fa9385be102ac3eac297483dd6233d62b3e1496 is missing role 0x19efed7511dad497f336fbaa05740ad432d42bb8e64228479f57ef6936bb2a9c");
         reserve.withdraw( amount);
     }
 }

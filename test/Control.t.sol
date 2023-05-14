@@ -13,9 +13,11 @@ import {UniswapV2Factory} from "../src/uni/UniswapV2Factory.sol";
 import {UniswapV2Router02} from "../src/router/UniswapV2Router02.sol";
 // import {WETH} from  "../src/extensions/WETH.sol";
 
-
-
 contract ControlTest is Test {
+    /// forge-config: default.invariant.runs = 100
+  /// forge-config: default.invariant.depth = 2
+  /// forge-config: default.invariant.fail-on-revert = false
+  /// forge-config: default.invariant.call-override = true
     IERC20 public token;
     uint256 initialMintStartTime_ = uint256(block.timestamp);
     Control public control;

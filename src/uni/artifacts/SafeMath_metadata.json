@@ -18,7 +18,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"src/uni/UniswapV2ERC20_flattened.sol": "SafeMath"
+			"src/uni/UniswapV2ERC20.sol": "SafeMath"
 		},
 		"evmVersion": "paris",
 		"libraries": {},
@@ -32,7 +32,7 @@
 		"remappings": []
 	},
 	"sources": {
-		"src/uni/UniswapV2ERC20_flattened.sol": {
+		"src/uni/UniswapV2ERC20.sol": {
 			"keccak256": "0xcd30c98e21dcc06f633c24b81a8738294c30d603d256611f94f67192236a4f51",
 			"urls": [
 				"bzz-raw://fd300625ec61192d418a837a517ae0a5750165e25236a7dfba7ae71100c5f64d",

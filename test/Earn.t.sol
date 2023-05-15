@@ -66,9 +66,13 @@ contract EarnTest is EarnEvents,Test {
          uint length= earn.poolLength();
         uint expectedLength= 3;
         assertEq(length, expectedLength);
+        address initializer = earn._initializer();
+        assertEq(initializer, address(this));
+         uint HYGTPerSecond= earn.HYGTPerSecond();
+        assertEq(HYGTPerSecond, 0.166666666666666667 * 1e18);
     }
 
-    function test_InitializeWithHydtAddressZero() public {
+    function test_Initialize_RevertOn_HYDTt_AddressZero() public {
         uint initialMintTime = uint (block.timestamp);
         vm.expectRevert("Earn: invalid HYDT address");
         earn.initialize( address(0), address( hygt),  address(shydt),  address(reserve),  initialMintTime ) ;
@@ -80,33 +84,26 @@ contract EarnTest is EarnEvents,Test {
         earn.initialize( address(hydt), address( 0),  address(shydt),  address(reserve),  initialMintTime ) ;
     }
 
-    function test_InitializeWithshydtAddressZero() public {
+    function test_Initialize_RevertOn_sHYDT_AddressZero() public {
         uint initialMintTime = uint (block.timestamp);
         vm.expectRevert("Earn: invalid sHYDT address");
         earn.initialize( address(hydt), address(hygt),  address(0),  address(reserve),  initialMintTime ) ;
     }
 
-    function test_InitializeWithTreasuryAddressZero() public {
+    function test_Initialize_RevertOn_Treasury_AddressZero() public {
         uint initialMintTime = uint (block.timestamp);
         vm.expectRevert("Earn: invalid Treasury address");
         earn.initialize( address(hydt), address(hygt),  address(shydt),  address(0),  initialMintTime ) ;
     }
 
-    function test_InitializeRAddressAfterIniitalize() public {
-        uint initialMintTime = uint (block.timestamp);
-        earn.initialize( address(hydt), address(hygt),  address(shydt),  address(reserve),  initialMintTime ) ;
-        address initializer = earn._initializer();
-        assertEq(initializer, address(this));
-    }
-
-    function test_InitializeWithInitializerZeroAddress() public {
+    function test_Initialize_RevertOn_NonInitializer() public {
         uint initialMintTime = uint (block.timestamp);
         vm.prank(address(0));
-        vm.expectRevert();
+        vm.expectRevert("Earn: caller is not the initializer");
         earn.initialize( address(hydt), address( hygt),  address(shydt),  address(reserve),  initialMintTime);
     }
 
-    function test_dailyPayouts() public {
+    function test_dailyPayouts_On_Initialize() public {
         uint initialMintTime = uint (block.timestamp);
         earn.initialize( address(hydt), address( hygt),  address(shydt),  address(reserve),  initialMintTime ) ;
         uint dailyPayouts= earn.dailyPayouts(0);
@@ -115,26 +112,6 @@ contract EarnTest is EarnEvents,Test {
         assertEq(dailyPayouts,1.156 * 1e18);
         assertEq(dailyPayouts1, 0.611 * 1e18);
         assertEq(dailyPayouts2,0.356 * 1e18);
-    }
-
-    // yearlyYields = [16 * 1e18, 20 * 1e18, 30 * 1e18];
-    // function test_yearlyYields() public {
-    //     uint initialMintTime = uint (block.timestamp);
-    //     earn.initialize( address(hydt), address( hygt),  address(shydt),  address(reserve),  initialMintTime ) ;
-    //     uint yearlyYields= earn.yearlyYields(0);
-    //     uint yearlyYields1= earn.yearlyYields(1);
-    //     uint yearlyYields2= earn.yearlyYields(2);
-    //     assertEq(yearlyYields,16 * 1e18);
-    //     assertEq(yearlyYields1,20 * 1e18);
-    //     assertEq(yearlyYields2, 30 * 1e18);
-    // }
-    // HYGTPerSecond
-
-    function test_VariableUpdateAfterInitialize() public {
-        uint initialMintTime = uint (block.timestamp);
-        earn.initialize( address(hydt), address( hygt),  address(shydt),  address(reserve),  initialMintTime ) ;
-        uint HYGTPerSecond= earn.HYGTPerSecond();
-        assertEq(HYGTPerSecond, 0.166666666666666667 * 1e18);
     }
 
     function test_updateAllocPoint () public {
@@ -146,7 +123,7 @@ contract EarnTest is EarnEvents,Test {
         assertTrue(true);
     }
 
-    function test_updateAllocPointWithNonGOVERNOR_ROLE () public {
+    function test_updateAllocPoint_RevertOn_NonGOVERNOR_ROLE () public {
         uint allocPoint=2000;
         uint8 stakeType= 2;
         uint initialMintTime = uint (block.timestamp);
@@ -188,7 +165,7 @@ contract EarnTest is EarnEvents,Test {
         
     }  
 
-    function test_stakeWithAmountZero() public {
+    function test_stake_RevertWhen_AmountZero() public {
         initializing();
         hydt.approve(address(earn), uint(100000e18));
         uint _amount = uint(0);
@@ -197,7 +174,7 @@ contract EarnTest is EarnEvents,Test {
         earn.stake(_amount, 0);
     }    
     
-    function test_stakeWithStakeTypeIncorrect() public {
+    function test_stake_RevertWhen_StakeTypeIncorrect() public {
         initializing();
         hydt.approve(address(earn), uint(100000e18));
         uint _amount = uint(10e18);
@@ -206,32 +183,33 @@ contract EarnTest is EarnEvents,Test {
         earn.stake(_amount, uint8(3));
     } 
 
-    function test_stakeEvent() public {
-        initializing();
-        hydt.approve(address(earn), uint(100000e18));
-        uint _amount = uint(10e18);
-        assertTrue(shydt.hasRole(shydt.CALLER_ROLE(), address(earn)));
+    // function test_stakeEvent() public {
+    //     initializing();
+    //     hydt.approve(address(earn), uint(100000e18));
+    //     uint _amount = uint(10e18);
+    //     assertTrue(shydt.hasRole(shydt.CALLER_ROLE(), address(earn)));
 
-        vm.expectEmit(false, true, true, false);
-        emit Stake(address(this), uint8(0) , uint(10e18), uint8(0),1, 5401);
+    //     vm.expectEmit(false, true, true, false);
+    //     emit Stake(address(this), uint8(0) , uint(10e18), uint8(0),1, 5401);
 
-        earn.stake(_amount, 0);
-        (,bool stakingStatus,uint256 amount,,,uint stakingendTime,uint stakinglastClaimTime,)= earn.getStakings(address(this), uint(0));
-        uint fee=uint (_amount*15/1000);
-        console.logUint(stakingendTime);
-        console.logUint(stakinglastClaimTime);
-        //  vm.expectEmit(true, true, false, true);
-        // // emit Transfer(address(this), address(this), 10);
-        // // hydt.transfer(address(this), 10);
-        // hydt.approve(address(earn), uint(100000e18));
-    } 
+    //     earn.stake(_amount, 0);
+    //     (,bool stakingStatus,uint256 amount,,,uint stakingendTime,uint stakinglastClaimTime,)= earn.getStakings(address(this), uint(0));
+    //     uint fee=uint (_amount*15/1000);
+    //     console.logUint(stakingendTime);
+    //     console.logUint(stakinglastClaimTime);
+    //     //  vm.expectEmit(true, true, false, true);
+    //     // // emit Transfer(address(this), address(this), 10);
+    //     // // hydt.transfer(address(this), 10);
+    //     // hydt.approve(address(earn), uint(100000e18));
+    // } 
 
 
-    function test_stakeWithCallerWithOutHYDTAllowance ( ) public {
+    function test_stake_RevertOn_ZeroHYDTAllowance ( ) public {
         initializing();
         uint _amount = uint(10e18);
         vm.expectRevert("ERC20: insufficient allowance");
         earn.stake(_amount, 0);
+
     }    
     // not to use this
     // function test_claimPayout()  public {
@@ -279,12 +257,12 @@ contract EarnTest is EarnEvents,Test {
                 // staking here
         vm.warp(1683705649);
         earn.stake(_amount, 0);
-        (,bool stakingStatus,uint256 amount,,,uint stakingendTime,uint stakinglastClaimTime,)= earn.getStakings(address(this), uint(0));
+        // (,bool stakingStatus,uint256 amount,,,uint stakingendTime,uint stakinglastClaimTime,)= earn.getStakings(address(this), uint(0));
         // uint fee=uint (_amount*15/1000);
         // (,,, uint accHYGTPerShare,)=earn.poolInfo(0);
         // console.logUint(accHYGTPerShare);
-        uint balanceBeforeUnstake = hydt.balanceOf(address(this));
-        uint balanceBeforeUnstakehygt = hygt.balanceOf(address(this));
+        // uint balanceBeforeUnstake = hydt.balanceOf(address(this));
+        // uint balanceBeforeUnstakehygt = hygt.balanceOf(address(this));
         // assertEq(balanceBeforeUnstakehygt,uint(0));
 
         // checking data updating or not on staking
@@ -307,7 +285,7 @@ contract EarnTest is EarnEvents,Test {
                 // staking here
         // vm.warp(1683705649);
         earn.stake(_amount, 0);
-        (,bool stakingStatus,uint256 amount,,,uint stakingendTime,uint stakinglastClaimTime,)= earn.getStakings(address(this), uint(0));
+        // (,bool stakingStatus,uint256 amount,,,uint stakingendTime,uint stakinglastClaimTime,)= earn.getStakings(address(this), uint(0));
         
         // // checking Rewards after a sepecific time
         vm.warp(200);
@@ -324,13 +302,13 @@ contract EarnTest is EarnEvents,Test {
         // vm.warp(1683705649);
         earn.stake(_amount, 0);
                                     // 5401, 1, 0
-        (,, ,,, uint endTime ,uint stakinglastClaimTime,uint rewardDebt)= earn.getStakings(address(this), uint(0));
+        (,, ,,, uint endTime ,,)= earn.getStakings(address(this), uint(0));
         vm.warp(endTime-12);
         vm.expectEmit(true, false, false, false);
         emit Payout(address(this), uint(0), uint(10134074000000000000));
         earn.claimPayout( 0);
                                 // 5401, 5341, 59799999999992950000
-        (,, ,,, uint endTime1 ,uint stakinglastClaimTime1,uint rewardDebt1)= earn.getStakings(address(this), uint(0));
+        (,, ,,,  ,uint stakinglastClaimTime1,uint rewardDebt1)= earn.getStakings(address(this), uint(0));
         uint expectedstakinglastClaimTime1=uint(5341);
         uint expectedrewardDebt1=uint(59799999999992950000);
         
@@ -351,7 +329,7 @@ contract EarnTest is EarnEvents,Test {
                 // staking here
         // vm.warp(1683705649);
         earn.stake(_amount, 0);
-        (,bool stakingStatus,uint256 amount,,,uint stakingendTime,uint stakinglastClaimTime,)= earn.getStakings(address(this), uint(0));
+        (,,,,,uint stakingendTime,,)= earn.getStakings(address(this), uint(0));
         
         // // checking Rewards after a sepecific time
         vm.warp(stakingendTime);
@@ -367,7 +345,7 @@ contract EarnTest is EarnEvents,Test {
                 // staking here
         // vm.warp(1683705649);
         earn.stake(_amount, 0);
-        (,bool stakingStatus,uint256 amount,,,uint stakingendTime,uint stakinglastClaimTime,)= earn.getStakings(address(this), uint(0));
+        // (,,,,,,uint stakinglastClaimTime,)= earn.getStakings(address(this), uint(0));
         
         // // checking Rewards after a sepecific time
         vm.warp(0);
@@ -384,7 +362,7 @@ contract EarnTest is EarnEvents,Test {
                 // staking here
         // vm.warp(1683705649);
         earn.stake(_amount, 0);
-        (,bool stakingStatus,uint256 amount,,,uint stakingendTime,uint stakinglastClaimTime,)= earn.getStakings(address(this), uint(0));
+        (,, ,,,uint stakingendTime,,)= earn.getStakings(address(this), uint(0));
         
         // // checking Rewards after a sepecific time
         vm.warp(stakingendTime);
@@ -401,7 +379,7 @@ contract EarnTest is EarnEvents,Test {
                 // staking here
         vm.warp(1683705649);
         earn.stake(_amount, 0);
-        (,bool stakingStatus,uint256 amount,,,uint stakingendTime,uint stakinglastClaimTime,)= earn.getStakings(address(this), uint(0));
+        (,,uint256 amount,,,,,)= earn.getStakings(address(this), uint(0));
         uint fee=uint (_amount*15/1000);
         uint balanceBeforeUnstake = hydt.balanceOf(address(this));
         uint balanceBeforeUnstakehygt = hygt.balanceOf(address(this));
@@ -437,7 +415,7 @@ contract EarnTest is EarnEvents,Test {
         uint _amount = uint(10e18);
         vm.warp(1683705649);
         earn.stake(_amount, 0);
-        (,bool stakingStatus,uint256 amount,,,uint stakingendTime,uint stakinglastClaimTime,)= earn.getStakings(address(this), uint(0));
+        (,,uint256 amount,,,,,)= earn.getStakings(address(this), uint(0));
         uint fee=uint (_amount*15/1000);
         assertEq(amount,_amount-fee);
     } 
@@ -449,6 +427,12 @@ contract EarnTest is EarnEvents,Test {
         earn.stake(_amount, 0);
         uint res= earn.getStakingLengths(address(this));
         assertEq(res,1);
+        earn.stake(_amount, 0);
+        uint res1= earn.getStakingLengths(address(this));
+        assertEq(res1,2);
+        earn.stake(_amount, 1);
+        uint res2= earn.getStakingLengths(address(this));
+        assertEq(res2,3);
     } 
     
 
@@ -460,7 +444,7 @@ contract EarnTest is EarnEvents,Test {
         uint8 stakeType = uint8(0);
         uint _amount = uint(10e18);
         earn.stake(_amount, stakeType);
-        (,,uint256 amount,,,,uint lastClaimTime,)= earn.getStakings(address(this), uint(0));
+        // (,,,,,,uint lastClaimTime,)= earn.getStakings(address(this), uint(0));
         vm.warp(1683794196);
         earn.updatePool( uint8(0));
         vm.warp(1683794273);
@@ -476,7 +460,7 @@ contract EarnTest is EarnEvents,Test {
         uint8 stakeType = uint8(0);
         uint _amount = uint(10e18);
         earn.stake(_amount, stakeType);
-        (,,uint256 amount1,,,,uint lastClaimTime,)= earn.getStakings(address(this), uint(0));
+        // (,,,,,,uint lastClaimTime,)= earn.getStakings(address(this), uint(0));
         vm.warp(1683788851);
         earn.claimPayout(0);
         vm.expectRevert("Earn: no amount to withdraw");

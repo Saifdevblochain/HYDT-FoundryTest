@@ -82,6 +82,7 @@ contract HYGT is AccessControl, ERC20Permit, IHYGT {
         /// @dev starting lockups.
         uint256 teamLockAmount = (_maxSupply * 20) / 100;
         uint256 treasuryLockAmount = (_maxSupply * 40) / 100;
+       
         Lock memory teamLock = Lock(true, 20, 0, teamLockAmount, block.timestamp, 0, 36);
         Lock memory treasuryLock = Lock(true, 4, 0, treasuryLockAmount, block.timestamp, 0, 36);
 
@@ -188,7 +189,6 @@ contract HYGT is AccessControl, ERC20Permit, IHYGT {
         uint256 maxIntervals = lock.totalIntervals - lock.intervalCounter;
         uint256 numberOfIntervals = (block.timestamp - lastUnlockTime) / ONE_MONTH_TIME;
         numberOfIntervals = numberOfIntervals > maxIntervals ? maxIntervals : numberOfIntervals;
-
         require(numberOfIntervals > 0, "HYGT: no intervals have passed yet");
         uint256 unlockAmount = (lock.totalAmount / lock.totalIntervals) * numberOfIntervals;
 
@@ -202,7 +202,6 @@ contract HYGT is AccessControl, ERC20Permit, IHYGT {
         if (lock.intervalCounter == lock.totalIntervals) {
             lock.status = false;
         }
-
         emit Unlock(_msgSender(), lock.unlockedAmount, lock.intervalCounter);
     }
 

@@ -8,7 +8,7 @@ import "../interfaces/IPancakePair.sol";
 library DataFetcher {
 
     // TODO replace
-    address private constant pancakeFactory = 0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f;
+    address private constant pancakeFactory = 0xA4AD4f68d0b91CFD19687c881e50f3A00242828c;
     // address private constant pancakeFactory = 0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f;
 
     function pairFor(address tokenA, address tokenB) internal view returns (address pair) {

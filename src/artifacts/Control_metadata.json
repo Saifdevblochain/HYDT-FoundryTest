@@ -1,0 +1,1013 @@
+{
+	"compiler": {
+		"version": "0.8.19+commit.7dd6d404"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amountBNB",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amountHYDT",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "callingPrice",
+						"type": "uint256"
+					}
+				],
+				"name": "InitialMint",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "caller",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "updatedPrice",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amountHYDT",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "callingPrice",
+						"type": "uint256"
+					}
+				],
+				"name": "Mint",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "caller",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amountHYDT",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "callingPrice",
+						"type": "uint256"
+					}
+				],
+				"name": "Redeem",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "previousAdminRole",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "newAdminRole",
+						"type": "bytes32"
+					}
+				],
+				"name": "RoleAdminChanged",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "sender",
+						"type": "address"
+					}
+				],
+				"name": "RoleGranted",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "sender",
+						"type": "address"
+					}
+				],
+				"name": "RoleRevoked",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "bool",
+						"name": "newOpsReadyState",
+						"type": "bool"
+					}
+				],
+				"name": "UpdateOpsReadyState",
+				"type": "event"
+			},
+			{
+				"inputs": [],
+				"name": "CALLER_ROLE",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "DAILY_INITIAL_MINT_LIMIT",
+				"outputs": [
+					{
+						"internalType": "uint128",
+						"name": "",
+						"type": "uint128"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "DEFAULT_ADMIN_ROLE",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "GOVERNOR_ROLE",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "HYDT",
+				"outputs": [
+					{
+						"internalType": "contract IHYDT",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "INITIAL_MINT_LIMIT",
+				"outputs": [
+					{
+						"internalType": "uint128",
+						"name": "",
+						"type": "uint128"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "OPS",
+				"outputs": [
+					{
+						"internalType": "contract IOps",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "PANCAKE_ROUTER",
+				"outputs": [
+					{
+						"internalType": "contract IPancakeRouter02",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "RESERVE",
+				"outputs": [
+					{
+						"internalType": "contract IReserve",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "USDT",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "WBNB",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "_initializer",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "contract IERC20",
+						"name": "token",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "guy",
+						"type": "address"
+					},
+					{
+						"internalType": "bool",
+						"name": "isApproved",
+						"type": "bool"
+					}
+				],
+				"name": "delegateApprove",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint8",
+						"name": "argument",
+						"type": "uint8"
+					}
+				],
+				"name": "execute",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getCurrentPrice",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getDailyInitialMints",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "startTime",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "endTime",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amountUSD",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getInitialMints",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "startTime",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "endTime",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amountUSD",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					}
+				],
+				"name": "getRoleAdmin",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "grantRole",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "hasRole",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "initialMint",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "WBNB_",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "hydt_",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "reserve_",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "initialMintStartTime_",
+						"type": "uint256"
+					}
+				],
+				"name": "initialize",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "lastExecutedMint",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "lastExecutedRedeem",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "mintProgressCount",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "opsReadyState",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "redeemProgressCount",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "renounceRole",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "revokeRole",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes4",
+						"name": "interfaceId",
+						"type": "bytes4"
+					}
+				],
+				"name": "supportsInterface",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bool",
+						"name": "newOpsReadyState",
+						"type": "bool"
+					}
+				],
+				"name": "updateOpsReadyState",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"stateMutability": "payable",
+				"type": "receive"
+			}
+		],
+		"devdoc": {
+			"events": {
+				"RoleAdminChanged(bytes32,bytes32,bytes32)": {
+					"details": "Emitted when `newAdminRole` is set as ``role``'s admin role, replacing `previousAdminRole` `DEFAULT_ADMIN_ROLE` is the starting admin for all roles, despite {RoleAdminChanged} not being emitted signaling this. _Available since v3.1._"
+				},
+				"RoleGranted(bytes32,address,address)": {
+					"details": "Emitted when `account` is granted `role`. `sender` is the account that originated the contract call, an admin role bearer except when using {AccessControl-_setupRole}."
+				},
+				"RoleRevoked(bytes32,address,address)": {
+					"details": "Emitted when `account` is revoked `role`. `sender` is the account that originated the contract call:   - if using `revokeRole`, it is the admin role bearer   - if using `renounceRole`, it is the role bearer (i.e. `account`)"
+				}
+			},
+			"kind": "dev",
+			"methods": {
+				"delegateApprove(address,address,bool)": {
+					"params": {
+						"guy": "The address of the spender.",
+						"isApproved": "The new state of the spender's allowance.",
+						"token": "The address of the token to approve."
+					}
+				},
+				"execute(uint8)": {
+					"params": {
+						"argument": "Denotes whether to mint or redeem."
+					}
+				},
+				"getDailyInitialMints()": {
+					"returns": {
+						"amountUSD": "The amount in USD that has been transacted via inital minting in said day.",
+						"endTime": "The unix timestamp which denotes the end of the day.",
+						"startTime": "The unix timestamp which denotes the start of the day."
+					}
+				},
+				"getInitialMints()": {
+					"returns": {
+						"amountUSD": "The amount in USD that has been transacted via inital minting in total.",
+						"endTime": "The unix timestamp which denotes the end of initial minting.",
+						"startTime": "The unix timestamp which denotes the start of initial minting."
+					}
+				},
+				"getRoleAdmin(bytes32)": {
+					"details": "Returns the admin role that controls `role`. See {grantRole} and {revokeRole}. To change a role's admin, use {_setRoleAdmin}."
+				},
+				"grantRole(bytes32,address)": {
+					"details": "Grants `role` to `account`. If `account` had not been already granted `role`, emits a {RoleGranted} event. Requirements: - the caller must have ``role``'s admin role. May emit a {RoleGranted} event."
+				},
+				"hasRole(bytes32,address)": {
+					"details": "Returns `true` if `account` has been granted `role`."
+				},
+				"initialize(address,address,address,uint256)": {
+					"details": "This function can only be called once.",
+					"params": {
+						"hydt_": "The address of the `HYDT` contract.",
+						"initialMintStartTime_": "The unix timestamp at which initial minting will begin.",
+						"reserve_": "The address of the `Reserve` contract."
+					}
+				},
+				"renounceRole(bytes32,address)": {
+					"details": "Revokes `role` from the calling account. Roles are often managed via {grantRole} and {revokeRole}: this function's purpose is to provide a mechanism for accounts to lose their privileges if they are compromised (such as when a trusted device is misplaced). If the calling account had been revoked `role`, emits a {RoleRevoked} event. Requirements: - the caller must be `account`. May emit a {RoleRevoked} event."
+				},
+				"revokeRole(bytes32,address)": {
+					"details": "Revokes `role` from `account`. If `account` had been granted `role`, emits a {RoleRevoked} event. Requirements: - the caller must have ``role``'s admin role. May emit a {RoleRevoked} event."
+				},
+				"supportsInterface(bytes4)": {
+					"details": "See {IERC165-supportsInterface}."
+				},
+				"updateOpsReadyState(bool)": {
+					"params": {
+						"newOpsReadyState": "The new state to assign to `opsReadyState`."
+					}
+				}
+			},
+			"stateVariables": {
+				"PRICE_UPPER_BOUND": {
+					"details": "Fixed price values."
+				},
+				"THREE_MONTHS_TIME": {
+					"details": "Fixed time duration variables."
+				},
+				"_initialMints": {
+					"details": "Storage of values for initial minting."
+				},
+				"_initializer": {
+					"details": "Initialization variables."
+				},
+				"mintProgressCount": {
+					"details": "Dependencies for ops calls."
+				}
+			},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {
+				"DAILY_INITIAL_MINT_LIMIT()": {
+					"notice": "the daily limit for initial minting in USD."
+				},
+				"HYDT()": {
+					"notice": "The address of the primary stable token."
+				},
+				"INITIAL_MINT_LIMIT()": {
+					"notice": "The total limit for initial minting in USD."
+				},
+				"PANCAKE_ROUTER()": {
+					"notice": "The address of the pancake router."
+				},
+				"RESERVE()": {
+					"notice": "The address of the BNB reserve."
+				},
+				"USDT()": {
+					"notice": "The address of the relevant stable token."
+				},
+				"WBNB()": {
+					"notice": "The address of the Wrapped BNB token."
+				},
+				"delegateApprove(address,address,bool)": {
+					"notice": "Allows this contract to approve tokens being sent out. Caller must have the `Governor` role."
+				},
+				"execute(uint8)": {
+					"notice": "Called by ops to maintain peg. Caller must have the `Caller` role."
+				},
+				"getCurrentPrice()": {
+					"notice": "Gets current HYDT price corresponding to the preferred pair."
+				},
+				"getDailyInitialMints()": {
+					"notice": "Gets daily values for initial minting."
+				},
+				"getInitialMints()": {
+					"notice": "Gets total values for initial minting."
+				},
+				"initialMint()": {
+					"notice": "Used to mint HYDT in return for BNB. All transfers will be made at 1 HYDT per USD at current BNB/USD rates."
+				},
+				"initialize(address,address,address,uint256)": {
+					"notice": "Initializes external dependencies and state variables."
+				},
+				"opsReadyState()": {
+					"notice": "The state of whether ops transaction fees will be paid by this contract or not. "
+				},
+				"updateOpsReadyState(bool)": {
+					"notice": "Updates the `opsReadyState`. Caller must have the `Governor` role."
+				}
+			},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"src/Control.sol": "Control"
+		},
+		"evmVersion": "paris",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"src/Control.sol": {
+			"keccak256": "0xb892964f3f9c24f7f76205d987e48ffc1113ed9a9d497ce3795d8c80fb658c85",
+			"license": "GNU GPLv3",
+			"urls": [
+				"bzz-raw://7ca48218ac49fd561b5266e9b5fed764d7ecedd694474409fcf865cf3917a30b",
+				"dweb:/ipfs/QmTKtgR7ZiLe9TVoYdvvpfykX8AtXFAtFMBBAqo4nHRubX"
+			]
+		},
+		"src/interfaces/IAccessControl.sol": {
+			"keccak256": "0x89c6c2a63dc6c357c6108de150ab329ad7f847f3ff00a35bcd55f769f4ebcad4",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://cadec590da43255289e7db8e08a0760869efa64c543dbd8af46690ce5295d497",
+				"dweb:/ipfs/QmZsPSyWeA3aZgDgtXMMx11wvTadrf5FzrxkWDbUfM11Ue"
+			]
+		},
+		"src/interfaces/IERC165.sol": {
+			"keccak256": "0x3213cb47aba4f8ba951dc5671d44e3559fecec1e9c402e679fbb5ada255fdff1",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://fc2296c533793e4c2a6eb4909bd2ca8e99044aff82e3fe2049092bd3f62034a3",
+				"dweb:/ipfs/QmVwAULUUqeXLdggzzW1C3hdNUZbqHoCskoGyfzZ5EKcwW"
+			]
+		},
+		"src/interfaces/IERC20.sol": {
+			"keccak256": "0xd49070e01df31c9f39ed67f7cb2844d842b5fc4c07048156f77f1ac06956a223",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://a7a56689e6a846ee765a66e30a816b0fe65eba41d2f16beb5bd57a7f7daf1027",
+				"dweb:/ipfs/QmduVybj3AaRyHwRRnmjxsG5jPERmFBEUH9EcXwVM5kPyC"
+			]
+		},
+		"src/interfaces/IERC20Permit.sol": {
+			"keccak256": "0x7593e149ceb83bfb0b3ef1252be3d79f784eb46fa74fa8ee72a5782803e7056a",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://25f85848e1c684f9c1cad51d1603d608116b14e54e191f3383ddd431d46e1b93",
+				"dweb:/ipfs/QmQnmnPtFGYcbAjc5HL9F5UxytDSFqSDLeBoXYJXyPMdvR"
+			]
+		},
+		"src/interfaces/IHYDT.sol": {
+			"keccak256": "0xbc67ed7a16df80c0461d05b06d5a6acbc68cb06df6b9ef34c2ee8529919f45f5",
+			"license": "GNU GPLv3",
+			"urls": [
+				"bzz-raw://dd41ae523674643e0925bc93bdc5c453da41e323b19be0739ba7981390066e2b",
+				"dweb:/ipfs/QmZMXNGpQzSQiDQj8Spfo39MdxqHEJfWtYveAiz7rMW2jv"
+			]
+		},
+		"src/interfaces/IPancakeFactory.sol": {
+			"keccak256": "0x237b5ca725592046b8829930174947b5c05fe690d9616212b2ab8487353fd598",
+			"license": "GNU GPLv3",
+			"urls": [
+				"bzz-raw://2728fd3aa95a5272e2f1064790534048bc0473a08e38aab5eb102f927b5055be",
+				"dweb:/ipfs/QmT4dDyuwmZAHjaXj1U976MTp9MKn9RgzneEBtKEgKbtL2"
+			]
+		},
+		"src/interfaces/IPancakePair.sol": {
+			"keccak256": "0xbc7e1e6dc8738235baf2c56431c1a0c6ca6c29390d0aaf417c6f393e4c309c97",
+			"license": "GNU GPLv3",
+			"urls": [
+				"bzz-raw://5c6375a7955e69f9bad10629ecd16861cfd114dd0dfe2c6edbd4a91cbe2ea656",
+				"dweb:/ipfs/QmbMdwMQ68bsFM8TH2ie4j5i9SxRv5neZrp9jKw1vuBXY7"
+			]
+		},
+		"src/interfaces/IPancakeRouter02.sol": {
+			"keccak256": "0x6b152cb5022ca01dc5bbe17ab8503357f311d0f5a4bbca1d1e9464ca7955eac5",
+			"license": "GNU GPLv3",
+			"urls": [
+				"bzz-raw://76916dc0ad609faf14de99e6b315904466a69e2706063b490706a7f9b0a26b0d",
+				"dweb:/ipfs/QmawFnshG3xTaJ7DeEzFV1PE5UiWFBPoQKSFWjKB4yuFdS"
+			]
+		},
+		"src/interfaces/IReserve.sol": {
+			"keccak256": "0xf22dda474f94733e1f9ae6650c8d0a71fd83fe650c71dbaa0a7154b482d33188",
+			"license": "GNU GPLv3",
+			"urls": [
+				"bzz-raw://7d43453e1a9849c0ea5521639403ff3af77d36137321517b4cc07896e11ca8d4",
+				"dweb:/ipfs/QmbCAZXybhQk5wQt4z6Jj7UNDnkWfZGSGFgKRH7jhtH7Sh"
+			]
+		},
+		"src/interfaces/Types.sol": {
+			"keccak256": "0xc6e8aa6069687e012ff7a9b38e83e86a8bec4093f16bd9293829a24424c2fc13",
+			"license": "UNLICENSED",
+			"urls": [
+				"bzz-raw://ae8e2e41404282919dbb5dc6f98ae18ed8c8721e8ee13050e9af0e9e32caa84b",
+				"dweb:/ipfs/QmbWq1t72DiGiydKmqhYSLJ4JBjQ2HkMFabbA7Gv5yNAuH"
+			]
+		},
+		"src/libraries/Address.sol": {
+			"keccak256": "0x9d0843efe7418f685e662378051ca0572b56e8ed4e87b97197fb535839d0e2f8",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://fd0692e4d4981ff36bf331a6dda3f60abe2debce9233df65e807639dc7cda713",
+				"dweb:/ipfs/QmeKRcBH8LegzqrtdTtEhZLyYeb7PFkAtChNbLA3fTkbKW"
+			]
+		},
+		"src/libraries/DataFetcher.sol": {
+			"keccak256": "0x0a34f9e74bc8ff1410a49cdc6be3cf092a890faf108cbc8d94a7bdf86cd763ae",
+			"license": "GNU GPLv3",
+			"urls": [
+				"bzz-raw://58f52f7d291c06523bc1210a329d390444d045bc943ebf546065cabfbce62a42",
+				"dweb:/ipfs/QmVHXVPjJBzYQCFxQvGP4XZ7GGgQDPzVJbK9hPfZ7tfe3y"
+			]
+		},
+		"src/libraries/Math.sol": {
+			"keccak256": "0xfc18275f00047f613f761247e4f3ec788843036f7f426b3fd3b74e251e45f7ae",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://acc7cebc92fed34db103599e2bde11669280f6e9062fc42d000969ee0e9e8443",
+				"dweb:/ipfs/QmQh4ArebQ7tuHEEPyHfeZKctXbC6zPRRnZ7bZM5GNkgh7"
+			]
+		},
+		"src/libraries/SafeERC20.sol": {
+			"keccak256": "0xa8c1f46f93b6cccaeaaa524410469e9def8bd3f175f40e4bb5fc5f421a637642",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://e948f1c56dfeb52151186a6e4fe04a2318130fdba505280253911ce69cad122b",
+				"dweb:/ipfs/QmShmatc9g1jToX7Uj5aNUHpAUYwd7zjthdrkeySMChMJE"
+			]
+		},
+		"src/libraries/SafeETH.sol": {
+			"keccak256": "0xb0d19fce6393c0b914c72f52b0ad243f54a829c54620470bcb9e339c29736323",
+			"license": "GNU GPLv3",
+			"urls": [
+				"bzz-raw://f980f9a97312bdd6d9052684e58713bc5ac02235161752a36973154038c4f6ed",
+				"dweb:/ipfs/Qmd7AjqGvDbjdD7asiP7ejVUqTn5PJYW5Znhnpb4uawv71"
+			]
+		},
+		"src/libraries/SignedMath.sol": {
+			"keccak256": "0xb4a5f5f5222294665d6241a5c06558d4939617ebd0a49d1eb9c0e193fd19bdfe",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://be7f6a069d156446211053299916948102d357d813be42c5f1614885e71d81b3",
+				"dweb:/ipfs/QmfT2fs3cDWvfoekdfkUQ3ZMz4f8tc2hqnabipbfzW3Xqb"
+			]
+		},
+		"src/libraries/Strings.sol": {
+			"keccak256": "0xaa9c663292d9142e4f463d0f876b1b3813e409bdeb321470fb20573d9a68012b",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://2f7892745f43559c7f4351120ca6829fb71d40ea286268174dd84128657ee915",
+				"dweb:/ipfs/QmeT6d7KBXrNcyLGhtj6a5LLHbYHiVVXqQYA6pSNnp8ecH"
+			]
+		},
+		"src/utils/AccessControl.sol": {
+			"keccak256": "0x9e9604e591c7f14ea0f18f906494192375b28f2d614279f1dda876de4ee240b2",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://9e1e5fa779889491b77f631f931fad6ba3b10907766b41d56c42a37fbcbbc664",
+				"dweb:/ipfs/QmadpbPf3XFvdH1CVD17VcTmf7ScynmnjEwePFs2WBmGmU"
+			]
+		},
+		"src/utils/Context.sol": {
+			"keccak256": "0x2c36c9489879b7c91cdd73bbe8b2584f401aa26f4f252c04f053e824d6ca75c6",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://3ef20575fc12fd27f252acd28a8d0f65893832f29fd9c82f7ec165121af4572f",
+				"dweb:/ipfs/QmZMCoWWDTjhs1CNFMWv4JNWVyyeuzyqteCHhF4heCUYJJ"
+			]
+		},
+		"src/utils/ERC165.sol": {
+			"keccak256": "0x0ce3f9c6ef779f4e44ea727f31300501bf3c19af2b27264e1932aef9c70f9300",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://850c17304062747f819d5c5b30e0f004ad3f36aa55d8407883311bf2fd68caee",
+				"dweb:/ipfs/QmZcbvqF24EBStFacFZcganjH7f6Et4RGWYHjy4M5nHiHM"
+			]
+		},
+		"src/utils/OpsReady.sol": {
+			"keccak256": "0x02bfdf31d85ca1253830d8fb42b6c16d746e4fcb8a41a187cfcf291818ce4966",
+			"license": "UNLICENSED",
+			"urls": [
+				"bzz-raw://6a2720449fd57a3ef1dd2432675e5fe9e3cb03a0bdd26211716d5f57f283aa33",
+				"dweb:/ipfs/QmVw2V6ub2jfn4kwiUKknAgyejrj5yFfcHdBS4V7678sze"
+			]
+		}
+	},
+	"version": 1
+}

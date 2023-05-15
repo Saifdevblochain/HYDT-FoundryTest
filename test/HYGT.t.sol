@@ -42,37 +42,37 @@ contract HYGTtest is Test {
         assertTrue(hygt.hasRole(hygt.CALLER_ROLE(), address(earn)));
     }
 
-    function test_InitializeWithNotInitializer() public {
+    function test_Initialize_RevertOn_NonInitializer() public {
         vm.prank(address(wbnb));
         vm.expectRevert("HYGT: caller is not the initializer");
         hygt.initialize(address(earn), address(farm));
     }
 
-    function test_Initialize_EarnZeroAddress() public {
+    function test_Initialize_RevertOn_EarnZeroAddress() public {
         vm.expectRevert("HYGT: invalid Earn address");
         hygt.initialize(address(0), address(farm));
     }
 
-    function test_Initialize_FarmZeroAddress() public {
+    function test_Initialize_RevertOn_FarmZeroAddress() public {
         vm.expectRevert("HYGT: invalid Farm address");
         hygt.initialize(address(earn), address(0));
     }
 
-    function test_mint_to_withCallerRole() public {
+    function test_mint() public {
         hygt.initialize(address(earn), address(farm));
         vm.prank(address(earn));
         bool success = hygt.mint(address(123), 100e18);
         assertTrue(success);
     }
 
-    function test_mint_to_withOutCallerRole() public {
+    function test_mint_RevertOn_NonCallerRole() public {
         hygt.initialize(address(earn), address(farm));
         vm.prank(address(1234));
-        vm.expectRevert();
+        vm.expectRevert("AccessControl: account 0x00000000000000000000000000000000000004d2 is missing role 0x19efed7511dad497f336fbaa05740ad432d42bb8e64228479f57ef6936bb2a9c");
         hygt.mint(address(123), 100e18);
     }
 
-    function test_mint_to_GreateThancallerMaxSupply() public {
+    function test_mint_RevertOn_GreateThancallerMaxSupply() public {
         test_Initialize();
         vm.prank(address(earn));
         vm.expectRevert("HYGT: invalid amount considering caller max supply");
@@ -92,13 +92,92 @@ contract HYGTtest is Test {
         hygt.initialize(address(earn), address(farm));
         vm.startPrank(address(earn));
         bool success = hygt.mint(address(this), 1000e18);
+        assertTrue(success);
         vm.stopPrank();
-
         hygt.approve(address(earn), 1000e18);
-
         vm.prank(address(earn));
         bool done = hygt.burnFrom(address(this), 100e18);
         assertTrue(done);
+    }
+
+    function test_BurnFrom_RevertOn_NonCalleRole() public {
+        hygt.initialize(address(earn), address(farm));
+        vm.startPrank(address(earn));
+        bool success = hygt.mint(address(this), 1000e18);
+        assertTrue(success);
+        vm.stopPrank();
+        hygt.approve(address(earn), 1000e18);
+        vm.prank(address(12345));
+        vm.expectRevert("AccessControl: account 0x0000000000000000000000000000000000003039 is missing role 0x19efed7511dad497f336fbaa05740ad432d42bb8e64228479f57ef6936bb2a9c");
+        bool done = hygt.burnFrom(address(this), 100e18);
+        assertFalse(done);
+    }
+
+    function test_unLock_RevertOn_NonCallerRole() public{
+        hygt.initialize(address(earn), address(farm));
+        vm.prank(address(1234));
+        vm.expectRevert("AccessControl: account 0x00000000000000000000000000000000000004d2 is missing role 0x0e87e1788ebd9ed6a7e63c70a374cd3283e41cad601d21fbe27863899ed4a709");
+        hygt.unlock();
+    }
+
+    function test_unLock_RevertWhen_NoIntervalsPassed() public{
+        hygt.initialize(address(earn), address(farm));
+        vm.expectRevert("HYGT: no intervals have passed yet");
+        hygt.unlock();
+    }
+
+    function test_unLock_AfterOneInterval() public{
+        hygt.initialize(address(earn), address(farm));
+        uint balanceBefore = hygt.balanceOf(address(this));
+        vm.warp(61);
+        hygt.unlock();
+        uint balanceAfter = hygt.balanceOf(address(this));
+        (,
+        ,
+        uint256 unlockedAmount,
+        ,
+        ,
+        ,)= hygt.lockups(address(this));
+        uint expected = balanceAfter-balanceBefore;
+        assertEq(expected, unlockedAmount);
+    }
+
+    function test_unLock_AfterAllIntervals() public{
+        hygt.initialize(address(earn), address(farm));
+        uint balanceBefore = hygt.balanceOf(address(this));
+        vm.warp(8000);
+        hygt.unlock();
+        uint balanceAfter = hygt.balanceOf(address(this));
+        (,
+        ,
+        uint256 unlockedAmount,
+        ,
+        ,
+        ,)= hygt.lockups(address(this));
+        uint expected = balanceAfter-balanceBefore;
+        assertEq(expected, unlockedAmount);
+        (bool status,,,,,,)= hygt.lockups(address(this));
+        assertFalse(status);
+    }
+
+    // function test_delegate() public{
+    //     hygt.delegate(address(this)) ;
+
+        
+    //     vm.prank(address(0));
+    //     hygt.delegate(address(this)) ;
+        
+    //     hygt.delegate(address(0)) ;
+    //     vm.warp(100);
+    //    uint res= hygt.getPriorVotes(address(0), 90);
+    //    console.log(res,"result of prior votes");
+    // }
+
+    function test_PriorVotes_OnDelegate() public {
+        hygt.initialize(address(earn), address(farm));
+        hygt.delegate( address(123));
+        uint expected = hygt.getCurrentVotes(address(123));
+        console.log("expected------",expected);
     }
 
     //delegate

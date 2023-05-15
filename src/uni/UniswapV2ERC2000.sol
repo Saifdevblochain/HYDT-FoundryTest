@@ -53,7 +53,7 @@ contract UniswapV2ERC20 is IUniswapV2ERC20 {
     event Approval(address indexed owner, address indexed spender, uint value);
     event Transfer(address indexed from, address indexed to, uint value);
 
-    constructor() public {
+    constructor()  {
         uint chainId;
         assembly {
             chainId := chainid()

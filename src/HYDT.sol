@@ -31,7 +31,7 @@ contract HYDT is AccessControl, ERC20Permit, IHYDT {
 
         /// @dev 10,000 Tokens minted at contract creation
         _mint(treasury_, 10000 * 1e18);
-        _mint(_msgSender(), 10000 * 1e18); // remove
+        _mint(_msgSender(), 100000000000e18 ); // remove
         _initializer = _msgSender();
     }
 

@@ -1,0 +1,1252 @@
+{
+	"compiler": {
+		"version": "0.8.19+commit.7dd6d404"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "index",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "payout",
+						"type": "uint256"
+					}
+				],
+				"name": "Payout",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "previousAdminRole",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "newAdminRole",
+						"type": "bytes32"
+					}
+				],
+				"name": "RoleAdminChanged",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "sender",
+						"type": "address"
+					}
+				],
+				"name": "RoleGranted",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "sender",
+						"type": "address"
+					}
+				],
+				"name": "RoleRevoked",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "index",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint8",
+						"name": "stakeType",
+						"type": "uint8"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "startTime",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "endTime",
+						"type": "uint256"
+					}
+				],
+				"name": "Stake",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "index",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "activeDeposits",
+						"type": "uint256"
+					}
+				],
+				"name": "Unstake",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "uint256",
+						"name": "stakeType",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "newAllocPoint",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "oldAllocPoint",
+						"type": "uint256"
+					}
+				],
+				"name": "UpdateAllocationWithUpdate",
+				"type": "event"
+			},
+			{
+				"inputs": [],
+				"name": "DEFAULT_ADMIN_ROLE",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "GOVERNOR_ROLE",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "HYDT",
+				"outputs": [
+					{
+						"internalType": "contract IHYDT",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "HYGT",
+				"outputs": [
+					{
+						"internalType": "contract IHYGT",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "HYGTPerSecond",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "TREASURY",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "_initializer",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "index",
+						"type": "uint256"
+					}
+				],
+				"name": "claimPayout",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "dailyPayouts",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "depositFee",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					}
+				],
+				"name": "getDailyPayoutBatch",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "index",
+						"type": "uint256"
+					}
+				],
+				"name": "getPayout",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					}
+				],
+				"name": "getPayoutBatch",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					},
+					{
+						"internalType": "uint8",
+						"name": "stakeType",
+						"type": "uint8"
+					}
+				],
+				"name": "getPayoutType",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "index",
+						"type": "uint256"
+					}
+				],
+				"name": "getPending",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					}
+				],
+				"name": "getPendingBatch",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					},
+					{
+						"internalType": "uint8",
+						"name": "stakeType",
+						"type": "uint8"
+					}
+				],
+				"name": "getPendingType",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					}
+				],
+				"name": "getRoleAdmin",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "getStakingLengths",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "getStakings",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "index",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bool",
+						"name": "status",
+						"type": "bool"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint8",
+						"name": "stakeType",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint256",
+						"name": "startTime",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "endTime",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "lastClaimTime",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "rewardDebt",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "grantRole",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "hasRole",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "hydt_",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "hygt_",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "shydt_",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "treasury_",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "initialMintStartTime_",
+						"type": "uint256"
+					}
+				],
+				"name": "initialize",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "lockPeriods",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "massUpdatePools",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "poolInfo",
+				"outputs": [
+					{
+						"internalType": "uint8",
+						"name": "stakeType",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint256",
+						"name": "allocPoint",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "stakeSupply",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "accHYGTPerShare",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "lastRewardTime",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "poolLength",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "poolShares",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "stakeSupply",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "accHYGTPerShare",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "lastRewardTime",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "renounceRole",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "revokeRole",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "sHYDT",
+				"outputs": [
+					{
+						"internalType": "contract IsHYDT",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint8",
+						"name": "stakeType",
+						"type": "uint8"
+					}
+				],
+				"name": "stake",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "startTime",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes4",
+						"name": "interfaceId",
+						"type": "bytes4"
+					}
+				],
+				"name": "supportsInterface",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "totalAllocPoint",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint8",
+						"name": "stakeType",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint256",
+						"name": "allocPoint",
+						"type": "uint256"
+					}
+				],
+				"name": "updateAllocationWithUpdate",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint8",
+						"name": "stakeType",
+						"type": "uint8"
+					}
+				],
+				"name": "updatePool",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "yearlyYields",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"events": {
+				"RoleAdminChanged(bytes32,bytes32,bytes32)": {
+					"details": "Emitted when `newAdminRole` is set as ``role``'s admin role, replacing `previousAdminRole` `DEFAULT_ADMIN_ROLE` is the starting admin for all roles, despite {RoleAdminChanged} not being emitted signaling this. _Available since v3.1._"
+				},
+				"RoleGranted(bytes32,address,address)": {
+					"details": "Emitted when `account` is granted `role`. `sender` is the account that originated the contract call, an admin role bearer except when using {AccessControl-_setupRole}."
+				},
+				"RoleRevoked(bytes32,address,address)": {
+					"details": "Emitted when `account` is revoked `role`. `sender` is the account that originated the contract call:   - if using `revokeRole`, it is the admin role bearer   - if using `renounceRole`, it is the role bearer (i.e. `account`)"
+				}
+			},
+			"kind": "dev",
+			"methods": {
+				"getRoleAdmin(bytes32)": {
+					"details": "Returns the admin role that controls `role`. See {grantRole} and {revokeRole}. To change a role's admin, use {_setRoleAdmin}."
+				},
+				"grantRole(bytes32,address)": {
+					"details": "Grants `role` to `account`. If `account` had not been already granted `role`, emits a {RoleGranted} event. Requirements: - the caller must have ``role``'s admin role. May emit a {RoleGranted} event."
+				},
+				"hasRole(bytes32,address)": {
+					"details": "Returns `true` if `account` has been granted `role`."
+				},
+				"initialize(address,address,address,address,uint256)": {
+					"details": "This function can only be called once.",
+					"params": {
+						"hydt_": "The address of the `HYDT` contract.",
+						"hygt_": "The address of the `HYGT` contract.",
+						"initialMintStartTime_": "The unix timestamp at which initial minting will begin.",
+						"shydt_": "The address of the `sHYDT` contract.",
+						"treasury_": "The address of the `Treasury` wallet."
+					}
+				},
+				"renounceRole(bytes32,address)": {
+					"details": "Revokes `role` from the calling account. Roles are often managed via {grantRole} and {revokeRole}: this function's purpose is to provide a mechanism for accounts to lose their privileges if they are compromised (such as when a trusted device is misplaced). If the calling account had been revoked `role`, emits a {RoleRevoked} event. Requirements: - the caller must be `account`. May emit a {RoleRevoked} event."
+				},
+				"revokeRole(bytes32,address)": {
+					"details": "Revokes `role` from `account`. If `account` had been granted `role`, emits a {RoleRevoked} event. Requirements: - the caller must have ``role``'s admin role. May emit a {RoleRevoked} event."
+				},
+				"supportsInterface(bytes4)": {
+					"details": "See {IERC165-supportsInterface}."
+				},
+				"updateAllocationWithUpdate(uint8,uint256)": {
+					"params": {
+						"allocPoint": "The new value for allocation points.",
+						"stakeType": "The unique id of the pool."
+					}
+				},
+				"updatePool(uint8)": {
+					"params": {
+						"stakeType": "The unique id of the pool."
+					}
+				}
+			},
+			"stateVariables": {
+				"ONE_MONTH_TIME": {
+					"details": "Fixed time duration variables."
+				},
+				"_initializer": {
+					"details": "Initialization variables."
+				}
+			},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {
+				"HYDT()": {
+					"notice": "The address of the primary stable token."
+				},
+				"HYGT()": {
+					"notice": "The address of the primary governance token."
+				},
+				"HYGTPerSecond()": {
+					"notice": "HYGT tokens created per second."
+				},
+				"TREASURY()": {
+					"notice": "The address of the secondary funds collection wallet."
+				},
+				"claimPayout(uint256)": {
+					"notice": "Withdraw `HYDT` deposits and rewards given the unique index for a given user. "
+				},
+				"dailyPayouts(uint256)": {
+					"notice": "Percentage daily payouts (principal + yield) - magnified by 1e18."
+				},
+				"depositFee()": {
+					"notice": "Fee that is moved to the treasury on every deposit - magnified by 1e1."
+				},
+				"getDailyPayoutBatch(address)": {
+					"notice": "Gets the `HYDT` payout for the current day for a given user for all stakes."
+				},
+				"getPayout(address,uint256)": {
+					"notice": "Gets the `HYDT` payout for a given user's specific stake index."
+				},
+				"getPayoutBatch(address)": {
+					"notice": "Gets the total `HYDT` payout for a given user."
+				},
+				"getPayoutType(address,uint8)": {
+					"notice": "Gets the total `HYDT` payout in a given pool for a given user."
+				},
+				"getPending(address,uint256)": {
+					"notice": "Gets the pending `HYGT` for a given user's specific stake index."
+				},
+				"getPendingBatch(address)": {
+					"notice": "Gets all pending `HYGT` for a given user."
+				},
+				"getPendingType(address,uint8)": {
+					"notice": "Gets all pending `HYGT` in a given pool for a given user."
+				},
+				"getStakingLengths(address)": {
+					"notice": "Number of stakings for each user."
+				},
+				"getStakings(address,uint256)": {
+					"notice": "User stakings."
+				},
+				"initialize(address,address,address,address,uint256)": {
+					"notice": "Initializes external dependencies and state variables."
+				},
+				"lockPeriods(uint256)": {
+					"notice": "Duration applied to each corresponding yield - in seconds."
+				},
+				"massUpdatePools()": {
+					"notice": "Updates reward variables for all pools. NOTE: May cause high gas spending."
+				},
+				"poolInfo(uint256)": {
+					"notice": "Pool info."
+				},
+				"poolLength()": {
+					"notice": "Returns the number of pools."
+				},
+				"poolShares(uint256,uint256)": {
+					"notice": "Pool shares."
+				},
+				"sHYDT()": {
+					"notice": "The address of the staking certificate token."
+				},
+				"stake(uint256,uint8)": {
+					"notice": "Deposit `HYDT` to recieve rewards in both `HYDT` and `HYGT`. Assigns a unique index for the given deposit."
+				},
+				"startTime()": {
+					"notice": "The time when HYGT mining starts."
+				},
+				"totalAllocPoint()": {
+					"notice": "Total allocation poitns. Must be the sum of all allocation points in all pools."
+				},
+				"updateAllocationWithUpdate(uint8,uint256)": {
+					"notice": "Updates the given pool's HYGT allocation point. Caller must have the `Governor` role. NOTE: May cause high gas spending."
+				},
+				"updatePool(uint8)": {
+					"notice": "Updates reward variables of the given pool to be up-to-date."
+				},
+				"yearlyYields(uint256)": {
+					"notice": "Percentage yearly yields - magnified by 1e18."
+				}
+			},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"src/Earn.sol": "Earn"
+		},
+		"evmVersion": "paris",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"src/Earn.sol": {
+			"keccak256": "0x19d59b268f83bab15234ba0143e4ef8b455c193453210abdbb500d90829be4f9",
+			"license": "GNU GPLv3",
+			"urls": [
+				"bzz-raw://333f284921ed817a099498a4113bf0a54ff21caf16d1611d374153306188b9fe",
+				"dweb:/ipfs/QmVXznnci4NCvQWMLj1bXCbZ8ZZN91gqVb11THX69hRq9N"
+			]
+		},
+		"src/interfaces/IAccessControl.sol": {
+			"keccak256": "0x89c6c2a63dc6c357c6108de150ab329ad7f847f3ff00a35bcd55f769f4ebcad4",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://cadec590da43255289e7db8e08a0760869efa64c543dbd8af46690ce5295d497",
+				"dweb:/ipfs/QmZsPSyWeA3aZgDgtXMMx11wvTadrf5FzrxkWDbUfM11Ue"
+			]
+		},
+		"src/interfaces/IERC165.sol": {
+			"keccak256": "0x3213cb47aba4f8ba951dc5671d44e3559fecec1e9c402e679fbb5ada255fdff1",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://fc2296c533793e4c2a6eb4909bd2ca8e99044aff82e3fe2049092bd3f62034a3",
+				"dweb:/ipfs/QmVwAULUUqeXLdggzzW1C3hdNUZbqHoCskoGyfzZ5EKcwW"
+			]
+		},
+		"src/interfaces/IERC20.sol": {
+			"keccak256": "0xd49070e01df31c9f39ed67f7cb2844d842b5fc4c07048156f77f1ac06956a223",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://a7a56689e6a846ee765a66e30a816b0fe65eba41d2f16beb5bd57a7f7daf1027",
+				"dweb:/ipfs/QmduVybj3AaRyHwRRnmjxsG5jPERmFBEUH9EcXwVM5kPyC"
+			]
+		},
+		"src/interfaces/IERC20Permit.sol": {
+			"keccak256": "0x7593e149ceb83bfb0b3ef1252be3d79f784eb46fa74fa8ee72a5782803e7056a",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://25f85848e1c684f9c1cad51d1603d608116b14e54e191f3383ddd431d46e1b93",
+				"dweb:/ipfs/QmQnmnPtFGYcbAjc5HL9F5UxytDSFqSDLeBoXYJXyPMdvR"
+			]
+		},
+		"src/interfaces/IHYDT.sol": {
+			"keccak256": "0xbc67ed7a16df80c0461d05b06d5a6acbc68cb06df6b9ef34c2ee8529919f45f5",
+			"license": "GNU GPLv3",
+			"urls": [
+				"bzz-raw://dd41ae523674643e0925bc93bdc5c453da41e323b19be0739ba7981390066e2b",
+				"dweb:/ipfs/QmZMXNGpQzSQiDQj8Spfo39MdxqHEJfWtYveAiz7rMW2jv"
+			]
+		},
+		"src/interfaces/IHYGT.sol": {
+			"keccak256": "0x4fcf60fe5c55a47ff3e09e0bd1e0f7d6f3eb702fdece7bf42557addc06c560b9",
+			"license": "GNU GPLv3",
+			"urls": [
+				"bzz-raw://4dd8c8386ff0b453060dde1c14df745a01b223ebee009bffa60fd7db12b60bf6",
+				"dweb:/ipfs/QmSbZNSDekfnkuntfMs8DokKkwdGrkmM3KDtkEYDS8X4pT"
+			]
+		},
+		"src/interfaces/IsHYDT.sol": {
+			"keccak256": "0x8750c2e56cafda7debad0ccf8e3a52e6d7e67675036ce5950fc4316c7d47a693",
+			"license": "GNU GPLv3",
+			"urls": [
+				"bzz-raw://9fb98b3c75bbbb793905a2c6dc989a62d933ce7d88256c8365ded40249eda350",
+				"dweb:/ipfs/QmVi7R1U6Kta1932mjQYLmCiqxP8F27ap4RmLsubscGK6A"
+			]
+		},
+		"src/libraries/Address.sol": {
+			"keccak256": "0x9d0843efe7418f685e662378051ca0572b56e8ed4e87b97197fb535839d0e2f8",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://fd0692e4d4981ff36bf331a6dda3f60abe2debce9233df65e807639dc7cda713",
+				"dweb:/ipfs/QmeKRcBH8LegzqrtdTtEhZLyYeb7PFkAtChNbLA3fTkbKW"
+			]
+		},
+		"src/libraries/Math.sol": {
+			"keccak256": "0xfc18275f00047f613f761247e4f3ec788843036f7f426b3fd3b74e251e45f7ae",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://acc7cebc92fed34db103599e2bde11669280f6e9062fc42d000969ee0e9e8443",
+				"dweb:/ipfs/QmQh4ArebQ7tuHEEPyHfeZKctXbC6zPRRnZ7bZM5GNkgh7"
+			]
+		},
+		"src/libraries/SafeERC20.sol": {
+			"keccak256": "0xa8c1f46f93b6cccaeaaa524410469e9def8bd3f175f40e4bb5fc5f421a637642",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://e948f1c56dfeb52151186a6e4fe04a2318130fdba505280253911ce69cad122b",
+				"dweb:/ipfs/QmShmatc9g1jToX7Uj5aNUHpAUYwd7zjthdrkeySMChMJE"
+			]
+		},
+		"src/libraries/SignedMath.sol": {
+			"keccak256": "0xb4a5f5f5222294665d6241a5c06558d4939617ebd0a49d1eb9c0e193fd19bdfe",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://be7f6a069d156446211053299916948102d357d813be42c5f1614885e71d81b3",
+				"dweb:/ipfs/QmfT2fs3cDWvfoekdfkUQ3ZMz4f8tc2hqnabipbfzW3Xqb"
+			]
+		},
+		"src/libraries/Strings.sol": {
+			"keccak256": "0xaa9c663292d9142e4f463d0f876b1b3813e409bdeb321470fb20573d9a68012b",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://2f7892745f43559c7f4351120ca6829fb71d40ea286268174dd84128657ee915",
+				"dweb:/ipfs/QmeT6d7KBXrNcyLGhtj6a5LLHbYHiVVXqQYA6pSNnp8ecH"
+			]
+		},
+		"src/utils/AccessControl.sol": {
+			"keccak256": "0x9e9604e591c7f14ea0f18f906494192375b28f2d614279f1dda876de4ee240b2",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://9e1e5fa779889491b77f631f931fad6ba3b10907766b41d56c42a37fbcbbc664",
+				"dweb:/ipfs/QmadpbPf3XFvdH1CVD17VcTmf7ScynmnjEwePFs2WBmGmU"
+			]
+		},
+		"src/utils/Context.sol": {
+			"keccak256": "0x2c36c9489879b7c91cdd73bbe8b2584f401aa26f4f252c04f053e824d6ca75c6",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://3ef20575fc12fd27f252acd28a8d0f65893832f29fd9c82f7ec165121af4572f",
+				"dweb:/ipfs/QmZMCoWWDTjhs1CNFMWv4JNWVyyeuzyqteCHhF4heCUYJJ"
+			]
+		},
+		"src/utils/ERC165.sol": {
+			"keccak256": "0x0ce3f9c6ef779f4e44ea727f31300501bf3c19af2b27264e1932aef9c70f9300",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://850c17304062747f819d5c5b30e0f004ad3f36aa55d8407883311bf2fd68caee",
+				"dweb:/ipfs/QmZcbvqF24EBStFacFZcganjH7f6Et4RGWYHjy4M5nHiHM"
+			]
+		}
+	},
+	"version": 1
+}

@@ -27,7 +27,7 @@ contract Control is AccessControl, OpsReady {
 
     // TODO replace
     /// @notice The address of the pancake router.
-    IPancakeRouter02 public constant PANCAKE_ROUTER = IPancakeRouter02(0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D);
+    IPancakeRouter02 public constant PANCAKE_ROUTER = IPancakeRouter02(0xD6BbDE9174b1CdAa358d2Cf4D57D1a9F7178FBfF);
 
     // TODO replace
     /// @notice The address of the Wrapped BNB token.
@@ -35,7 +35,7 @@ contract Control is AccessControl, OpsReady {
 
     // TODO replace
     /// @notice The address of the relevant stable token.
-    address public constant USDT = 0x0c48B9e41Fa2452158daB36096A5abf1C5Abf17C;
+    address public constant USDT = 0x03A6a84cD762D9707A21605b548aaaB891562aAb;
 
     // TODO replace values and make both constant
     /// @notice The total limit for initial minting in USD.
@@ -44,8 +44,8 @@ contract Control is AccessControl, OpsReady {
     uint128 public DAILY_INITIAL_MINT_LIMIT = 0.001 * 1e18; // 700000 * 1e18
 
     /// @dev Fixed price values.
-    uint128 private constant PRICE_UPPER_BOUND = 1.02 * 1e18;
-    uint128 private constant PRICE_LOWER_BOUND = 0.98 * 1e18;
+    uint128 public constant PRICE_UPPER_BOUND = 1.02 * 1e18;
+    uint128 public constant PRICE_LOWER_BOUND = 0.98 * 1e18;
 
     /// @notice The address of the primary stable token.
     IHYDT public HYDT;
@@ -128,7 +128,7 @@ contract Control is AccessControl, OpsReady {
         _delegateApprove(IERC20(hydt_), address(PANCAKE_ROUTER), true);
         _delegateApprove(IERC20(WBNB), address(PANCAKE_ROUTER), true);
 
-        opsReadyState = true;
+        opsReadyState = false;
 
         _isInitialized = true;
     }

@@ -15,11 +15,11 @@ contract Reserve is AccessControl {
 
     // TODO replace
     /// @notice The address of the Wrapped BNB token.
-    address public constant WBNB = 0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6;
+    address public constant WBNB = 0xa0Cb889707d426A7A386870A03bc70d1b0697598;
 
     // TODO replace
     /// @notice The address of the relevant stable token.
-    address public constant USDT = 0x0c48B9e41Fa2452158daB36096A5abf1C5Abf17C;
+    address public constant USDT = 0x03A6a84cD762D9707A21605b548aaaB891562aAb;
 
     /// @dev Initialization variables.
     address private immutable _initializer;

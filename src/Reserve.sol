@@ -15,15 +15,16 @@ contract Reserve is AccessControl {
 
     // TODO replace
     /// @notice The address of the Wrapped BNB token.
-    address public constant WBNB = 0xa0Cb889707d426A7A386870A03bc70d1b0697598;
+    address public   WBNB ;
 
     // TODO replace
     /// @notice The address of the relevant stable token.
-    address public constant USDT = 0x03A6a84cD762D9707A21605b548aaaB891562aAb;
+    address public   USDT ;
 
     /// @dev Initialization variables.
     address private immutable _initializer;
     bool private _isInitialized;
+    address public factory;
 
     /* ========== EVENTS ========== */
 
@@ -43,7 +44,7 @@ contract Reserve is AccessControl {
      * @dev This function can only be called once.
      * @param control_ The address of the `Control` contract.
      */
-    function initialize(address control_) external {
+    function initialize(address factory_,address control_, address USDT_, address WBNB_) external {
         require(_msgSender() == _initializer, "Reserve: caller is not the initializer");
         // TODO uncomment
         // require(!_isInitialized, "Reserve: already initialized");
@@ -52,7 +53,9 @@ contract Reserve is AccessControl {
         _grantRole(CALLER_ROLE, control_);
         // TODO future proofing needed?
         _grantRole(DEFAULT_ADMIN_ROLE, _msgSender());
-
+        factory=factory_;
+        USDT= USDT_;
+        WBNB= WBNB_;
         _isInitialized = true;
     }
 
@@ -60,7 +63,7 @@ contract Reserve is AccessControl {
 
     receive() external payable {
         uint256 totalReserveBNB = address(this).balance;
-        uint256 totalReserve = DataFetcher.quote(totalReserveBNB, WBNB, USDT);
+        uint256 totalReserve = DataFetcher.quote(factory,totalReserveBNB, WBNB, USDT);
 
         emit In(_msgSender(), msg.value, totalReserveBNB, totalReserve);
     }
@@ -71,7 +74,7 @@ contract Reserve is AccessControl {
     function withdraw(uint256 amount) external onlyRole(CALLER_ROLE) {
         SafeETH.safeTransferETH(_msgSender(), amount);
         uint256 totalReserveBNB = address(this).balance;
-        uint256 totalReserve = DataFetcher.quote(totalReserveBNB, WBNB, USDT);
+        uint256 totalReserve = DataFetcher.quote(factory,totalReserveBNB, WBNB, USDT);
 
         emit Out(_msgSender(), amount, totalReserveBNB, totalReserve);
     }

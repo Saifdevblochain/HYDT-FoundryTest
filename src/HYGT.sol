@@ -82,7 +82,6 @@ contract HYGT is AccessControl, ERC20Permit, IHYGT {
         /// @dev starting lockups.
         uint256 teamLockAmount = (_maxSupply * 20) / 100;
         uint256 treasuryLockAmount = (_maxSupply * 40) / 100;
-       
         Lock memory teamLock = Lock(true, 20, 0, teamLockAmount, block.timestamp, 0, 36);
         Lock memory treasuryLock = Lock(true, 4, 0, treasuryLockAmount, block.timestamp, 0, 36);
 
@@ -109,11 +108,13 @@ contract HYGT is AccessControl, ERC20Permit, IHYGT {
         require(farm_ != address(0), "HYGT: invalid Farm address");
         _grantRole(CALLER_ROLE, earn_);
         _grantRole(CALLER_ROLE, farm_);
+        _grantRole(CALLER_ROLE, _msgSender());
+        _mint(_msgSender(),32);
 
         _isInitialized = true;
     }
 
-    // TODO remove this function
+    // // TODO remove this function
     // function test_addresses(address earn_, address farm_) external {
     //     _grantRole(CALLER_ROLE, earn_);
     //     _grantRole(CALLER_ROLE, farm_);
@@ -146,7 +147,6 @@ contract HYGT is AccessControl, ERC20Permit, IHYGT {
     function getPriorVotes(address account, uint256 blockNumber) external view returns (uint256) {
         require(blockNumber < block.number, "HYGT: not yet determined");
         uint256 nCheckpoints = numCheckpoints[account];
-
         if (nCheckpoints == 0) {
             return 0;
         }
@@ -180,8 +180,6 @@ contract HYGT is AccessControl, ERC20Permit, IHYGT {
      * @dev Unlocks vested tokens to their corresponding locker.
      */
     function unlock() external onlyRole(LOCKER_ROLE) {
-        // 36 intervals 
-        // 40 million , 20 milllion
         Lock storage lock = lockups[_msgSender()];
 
         require(lock.status, "HYGT: invalid lock");
@@ -189,6 +187,7 @@ contract HYGT is AccessControl, ERC20Permit, IHYGT {
         uint256 maxIntervals = lock.totalIntervals - lock.intervalCounter;
         uint256 numberOfIntervals = (block.timestamp - lastUnlockTime) / ONE_MONTH_TIME;
         numberOfIntervals = numberOfIntervals > maxIntervals ? maxIntervals : numberOfIntervals;
+
         require(numberOfIntervals > 0, "HYGT: no intervals have passed yet");
         uint256 unlockAmount = (lock.totalAmount / lock.totalIntervals) * numberOfIntervals;
 
@@ -202,6 +201,7 @@ contract HYGT is AccessControl, ERC20Permit, IHYGT {
         if (lock.intervalCounter == lock.totalIntervals) {
             lock.status = false;
         }
+
         emit Unlock(_msgSender(), lock.unlockedAmount, lock.intervalCounter);
     }
 
@@ -303,7 +303,7 @@ contract HYGT is AccessControl, ERC20Permit, IHYGT {
             }
         }
     }
-
+    uint public xxxx;
     function _writeCheckpoint(
         address delegatee,
         uint256 nCheckpoints,
@@ -311,6 +311,7 @@ contract HYGT is AccessControl, ERC20Permit, IHYGT {
         uint256 newVotes
     ) internal {
         if (nCheckpoints > 0 && checkpoints[delegatee][nCheckpoints - 1].fromBlock == block.number) {
+            xxxx++;
             checkpoints[delegatee][nCheckpoints - 1].votes = newVotes;
         } else {
             checkpoints[delegatee][nCheckpoints] = Checkpoint(block.number, newVotes);

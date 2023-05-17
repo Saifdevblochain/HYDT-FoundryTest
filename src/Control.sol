@@ -27,7 +27,8 @@ contract Control is AccessControl, OpsReady {
 
     // TODO replace
     /// @notice The address of the pancake router.
-    IPancakeRouter02 public constant PANCAKE_ROUTER = IPancakeRouter02(0xD6BbDE9174b1CdAa358d2Cf4D57D1a9F7178FBfF);
+    IPancakeRouter02 public  PANCAKE_ROUTER ;
+    address public factory ;
 
     // TODO replace
     /// @notice The address of the Wrapped BNB token.
@@ -35,13 +36,13 @@ contract Control is AccessControl, OpsReady {
 
     // TODO replace
     /// @notice The address of the relevant stable token.
-    address public constant USDT = 0x03A6a84cD762D9707A21605b548aaaB891562aAb;
+    address public USDT ;
 
     // TODO replace values and make both constant
     /// @notice The total limit for initial minting in USD.
-    uint128 public INITIAL_MINT_LIMIT = 0.1 * 1e18; // 30000000 * 1e18
+    uint128 public INITIAL_MINT_LIMIT = 30000000 * 1e18; // 30000000 * 1e18
     /// @notice the daily limit for initial minting in USD.
-    uint128 public DAILY_INITIAL_MINT_LIMIT = 0.001 * 1e18; // 700000 * 1e18
+    uint128 public DAILY_INITIAL_MINT_LIMIT = 700000 * 1e18; // 700000 * 1e18
 
     /// @dev Fixed price values.
     uint128 public constant PRICE_UPPER_BOUND = 1.02 * 1e18;
@@ -53,8 +54,8 @@ contract Control is AccessControl, OpsReady {
     IReserve public RESERVE;
 
     /// @dev Storage of values for initial minting.
-    Values private _initialMints;
-    Values private _dailyInitialMints;
+    Values public _initialMints;
+    Values public _dailyInitialMints;
 
     /// @dev Dependencies for ops calls.
     uint256 public mintProgressCount;
@@ -86,52 +87,49 @@ contract Control is AccessControl, OpsReady {
 
     /* ========== CONSTRUCTOR ========== */
 
-    constructor() {
+    constructor ( )  {
         _initializer = _msgSender();
     }
+    // constructor(address USDT_,address factory_, address router, address WBNB_, address hydt_, address reserve_, uint256 initialMintStartTime_) {
+    //     _initializer = _msgSender();
+    //     require(_msgSender() == _initializer, "Control: caller is not the initializer");
+    //     // TODO uncomment
+    //     require(!_isInitialized, "Control: already initialized");
+    //     PANCAKE_ROUTER= IPancakeRouter02(router);
+    //     USDT= USDT_;
+
+    //     // require(ops_ != address(0), "Control: invalid Ops address");
+    //     // require(taskCreator_ != address(0), "Control: invalid TaskCreator address");
+    //     require(hydt_ != address(0), "Control: invalid HYDT address");
+    //     require(reserve_ != address(0), "Control: invalid Reserve address");
+    //     // OPS = IOps(ops_);
+    //     // _gelato = IOps(ops_).gelato();
+    //     // (address dedicatedMsgSender, ) = IOpsProxyFactory(OPS_PROXY_FACTORY).getProxyOf(taskCreator_);
+
+    //     _grantRole(GOVERNOR_ROLE, _msgSender());
+    //     _grantRole(CALLER_ROLE, _msgSender());
+    //     // TODO future proofing needed?
+    //     _grantRole(DEFAULT_ADMIN_ROLE, _msgSender());
+    //     WBNB= WBNB_;
+    //     HYDT = IHYDT(hydt_);
+    //     RESERVE = IReserve(reserve_);
+
+    //     factory = factory_;
+    //     _initialMints.startTime = initialMintStartTime_;
+    //     _initialMints.endTime = initialMintStartTime_ + THREE_MONTHS_TIME;
+    //     _dailyInitialMints.startTime = initialMintStartTime_;
+    //     _dailyInitialMints.endTime = initialMintStartTime_ + ONE_DAY_TIME;
+
+    //     _delegateApprove(IERC20(hydt_), address(PANCAKE_ROUTER), true);
+    //     _delegateApprove(IERC20(WBNB), address(PANCAKE_ROUTER), true);
+
+    //     opsReadyState = false;
+
+    //     _isInitialized = true;
+    // }
 
     /* ========== INITIALIZE ========== */
 
-    /**
-     * @notice Initializes external dependencies and state variables.
-     * @dev This function can only be called once.
-     * @param hydt_ The address of the `HYDT` contract.
-     * @param reserve_ The address of the `Reserve` contract.
-     * @param initialMintStartTime_ The unix timestamp at which initial minting will begin.
-     */
-    function initialize(/*address ops_, address taskCreator_,*/ address WBNB_, address hydt_, address reserve_, uint256 initialMintStartTime_) external {
-        require(_msgSender() == _initializer, "Control: caller is not the initializer");
-        // TODO uncomment
-        require(!_isInitialized, "Control: already initialized");
-
-        // require(ops_ != address(0), "Control: invalid Ops address");
-        // require(taskCreator_ != address(0), "Control: invalid TaskCreator address");
-        require(hydt_ != address(0), "Control: invalid HYDT address");
-        require(reserve_ != address(0), "Control: invalid Reserve address");
-        // OPS = IOps(ops_);
-        // _gelato = IOps(ops_).gelato();
-        // (address dedicatedMsgSender, ) = IOpsProxyFactory(OPS_PROXY_FACTORY).getProxyOf(taskCreator_);
-
-        _grantRole(GOVERNOR_ROLE, _msgSender());
-        _grantRole(CALLER_ROLE, _msgSender());
-        // TODO future proofing needed?
-        _grantRole(DEFAULT_ADMIN_ROLE, _msgSender());
-        WBNB= WBNB_;
-        HYDT = IHYDT(hydt_);
-        RESERVE = IReserve(reserve_);
-
-        _initialMints.startTime = initialMintStartTime_;
-        _initialMints.endTime = initialMintStartTime_ + THREE_MONTHS_TIME;
-        _dailyInitialMints.startTime = initialMintStartTime_;
-        _dailyInitialMints.endTime = initialMintStartTime_ + ONE_DAY_TIME;
-
-        _delegateApprove(IERC20(hydt_), address(PANCAKE_ROUTER), true);
-        _delegateApprove(IERC20(WBNB), address(PANCAKE_ROUTER), true);
-
-        opsReadyState = false;
-
-        _isInitialized = true;
-    }
 
     // TODO remove this function
     // function test_initialMintStartTime(uint256 initialMintStartTime_) external {
@@ -242,7 +240,7 @@ contract Control is AccessControl, OpsReady {
         path[1] = WBNB;
         path[2] = USDT;
         uint256 amountIn = 1 * 1e18;
-        uint256 price = DataFetcher.quoteRouted(amountIn, path);
+        uint256 price = DataFetcher.quoteRouted(factory,amountIn, path);
         return price;
     }
 
@@ -263,7 +261,7 @@ contract Control is AccessControl, OpsReady {
             dailyInitialMints.endTime += numberOfDays * ONE_DAY_TIME;
             dailyInitialMints.amount = 0;
         }
-        uint256 amountOut = DataFetcher.quote(msg.value, WBNB, USDT);
+        uint256 amountOut = DataFetcher.quote(factory,msg.value, WBNB, USDT);
 
         require(
             INITIAL_MINT_LIMIT >=
@@ -307,9 +305,10 @@ contract Control is AccessControl, OpsReady {
         if (mintProgressCount < 0.1 * 1e18) {
             mintProgressCount += 1 * 1e18;
         }
-        uint256 amountReserve = DataFetcher.quote(address(RESERVE).balance, WBNB, USDT);
+        uint256 amountReserve = DataFetcher.quote(factory,address(RESERVE).balance, WBNB, USDT);
         uint256 amountLiquidityHYDT = HYDT.balanceOf(
             DataFetcher.pairFor(
+                factory,
                 address(HYDT),
                 WBNB
             )
@@ -338,7 +337,7 @@ contract Control is AccessControl, OpsReady {
 
         uint256 oldPrice = price;
         price = getCurrentPrice();
-        amountReserve = DataFetcher.quote(address(RESERVE).balance, WBNB, USDT);
+        amountReserve = DataFetcher.quote(factory,address(RESERVE).balance, WBNB, USDT);
         baseValue = (((price - (0.9 * 1e18)) ** 2) * amountReserve * (0.04 * 1e2)) / 1e38;
         uint256 reduction = (amountMintHYDT * 1e18) / baseValue;
         mintProgressCount = reduction > mintProgressCount ? 0 : mintProgressCount - reduction;
@@ -353,10 +352,10 @@ contract Control is AccessControl, OpsReady {
         if (redeemProgressCount < 0.1 * 1e18) {
             redeemProgressCount += 1 * 1e18;
         }
-        uint256 amountReserve = DataFetcher.quote(address(RESERVE).balance, WBNB, USDT);
-        uint256 amountLiquidity = DataFetcher.quote(
+        uint256 amountReserve = DataFetcher.quote(factory,address(RESERVE).balance, WBNB, USDT);
+        uint256 amountLiquidity = DataFetcher.quote(factory,
             IERC20(WBNB).balanceOf(
-                DataFetcher.pairFor(
+                DataFetcher.pairFor(factory,
                     address(HYDT),
                     WBNB
                 )
@@ -369,7 +368,7 @@ contract Control is AccessControl, OpsReady {
         uint256 firstValue = (baseValue * redeemProgressCount) / 1e18;
         uint256 secondValue = ((0.0025 * 1e4) * amountLiquidity) / 1e4;
         uint256 amountRedeem = firstValue < secondValue ? firstValue : secondValue;
-        uint256 amountRedeemBNB = DataFetcher.quote(amountRedeem, USDT, WBNB);
+        uint256 amountRedeemBNB = DataFetcher.quote(factory,amountRedeem, USDT, WBNB);
 
         RESERVE.withdraw(amountRedeemBNB);
         address[] memory path = new address[](2);
@@ -390,7 +389,7 @@ contract Control is AccessControl, OpsReady {
 
         // uint256 oldPrice = price;
         // price = getCurrentPrice();
-        amountReserve = DataFetcher.quote(address(RESERVE).balance, WBNB, USDT);
+        amountReserve = DataFetcher.quote(factory,address(RESERVE).balance, WBNB, USDT);
         baseValue = ((((1.1 * 1e18) - getCurrentPrice()) ** 2) * amountReserve * (0.004 * 1e3)) / 1e39;
         uint256 reduction = (amountRedeem * 1e18) / baseValue;
         redeemProgressCount = reduction > redeemProgressCount ? 0 : redeemProgressCount - reduction;

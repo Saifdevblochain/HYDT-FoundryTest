@@ -40,6 +40,7 @@ contract HYGTtest is Test {
         hygt.initialize(address(earn), address(farm));
         assertTrue(hygt.hasRole(hygt.CALLER_ROLE(), address(farm)));
         assertTrue(hygt.hasRole(hygt.CALLER_ROLE(), address(earn)));
+        assertEq(hygt.maxSupply(),1000000000e18);
     }
 
     function test_Initialize_RevertOn_NonInitializer() public {
@@ -160,25 +161,132 @@ contract HYGTtest is Test {
         assertFalse(status);
     }
 
-    // function test_delegate() public{
-    //     hygt.delegate(address(this)) ;
+    function test_delegate() public{
+        hygt.initialize(address(earn), address(farm));
+        hygt.mint(address(this),100000e18);
+        uint bn= block.number+5;
+        uint balanceOf= hygt.balanceOf(address(this));
+        vm.roll(bn);
+        hygt.delegate(address(this));
+        vm.roll(block.number+5);
+        uint256 votesPrior= hygt.getPriorVotes( address(this),  bn);
+        assertEq(balanceOf,votesPrior);
+        uint currentvotes= hygt.getCurrentVotes( address(this) );
+        assertEq(balanceOf,currentvotes);
+        vm.roll(100);
+        hygt.transfer(address(2), 10e18) ;
+        vm.prank(address(2));
+        hygt.delegate(address(2)) ;
+        vm.roll(104);
+        uint256 votesNow= hygt.getPriorVotes( address(2),  100);
+        uint256 currentvotesNow= hygt.getCurrentVotes( address(2) );
+        assertEq(votesNow, 10e18);
+        assertEq(currentvotesNow, 10e18);
+    }
 
-        
-    //     vm.prank(address(0));
-    //     hygt.delegate(address(this)) ;
-        
-    //     hygt.delegate(address(0)) ;
-    //     vm.warp(100);
-    //    uint res= hygt.getPriorVotes(address(0), 90);
-    //    console.log(res,"result of prior votes");
+    function test_delegate_2() public{
+        hygt.initialize(address(earn), address(farm));
+        hygt.mint(address(123), 28);
+        uint balanceThis = hygt.balanceOf(address(this));
+        uint balance123 = hygt.balanceOf(address(123));
+        vm.roll(5);
+        hygt.delegate(address(this));
+        vm.roll(10);
+        assertEq(balanceThis, hygt.getCurrentVotes( address(this) ));
+        vm.startPrank(address(123));
+        hygt.delegate(address(123));
+        vm.roll(15);
+        assertEq(balance123, hygt.getCurrentVotes( address(123) ));
+        hygt.transfer(address(this), 14);
+        vm.roll(20);
+
+        console.log(" ---Current Votes shold be 46||",hygt.getCurrentVotes( address(this) ));
+        assertEq(hygt.getCurrentVotes( address(this) ), 46);
+        console.log("balance of This--- 46",hygt.balanceOf(address(this)));
+        assertEq(hygt.balanceOf( address(this) ), 46);
+        console.log("123-- CurrentVotes 14||",hygt.getCurrentVotes( address(123) ));
+        assertEq(hygt.getCurrentVotes( address(123) ), 14);
+        console.log("balance of 123---",hygt.balanceOf(address(123)));
+        assertEq(hygt.balanceOf( address(123) ), 14);
+        vm.stopPrank();
+    }
+
+    function test_delegate_3() public{
+        hygt.initialize(address(earn), address(farm));
+        vm.roll(5);
+        hygt.delegate(address(this));
+        uint expected = hygt.getPriorVotes( address(this), 4 );
+        assertEq(expected ,0);
+        console.log("expected -----",expected);
+        console.log("numcheckpoints---",hygt.numCheckpoints(address(this)));
+    }
+
+    function test_delegate_4() public{
+        hygt.initialize( address(earn), address(farm));
+        hygt.mint(address(this), 100e18);
+        vm.roll(5);
+        hygt.delegate(address(1234));
+        vm.roll(10);
+        hygt.mint(address(this), 100e18);
+        hygt.delegate(address(1234));
+        vm.roll(15);
+        hygt.mint(address(this), 100e18);
+        hygt.delegate(address(1234));
+        vm.roll(20);
+        assertEq(hygt.getPriorVotes(address(1234), 10),200000000000000000032);
+    }
+
+    function test_delegate_5() public{
+        hygt.initialize( address(earn), address(farm));
+        hygt.mint(address(this), 100e18);
+        vm.roll(5);
+        hygt.delegate(address(1234));
+        vm.roll(10);
+        hygt.mint(address(this), 100e18);
+        hygt.delegate(address(1234));
+        vm.roll(15);
+        hygt.mint(address(this), 100e18);
+        hygt.delegate(address(1234));
+        vm.roll(20);
+        hygt.mint(address(this), 100e18);
+        hygt.delegate(address(1234));
+        vm.roll(25);
+        hygt.mint(address(this), 100e18);
+        hygt.delegate(address(1234));
+        vm.roll(30);
+        uint result= hygt.getPriorVotes(address(1234), 24);
+        assertEq(result, 400000000000000000032);
+    }
+
+    function test_delegate_6() public{
+        hygt.initialize(address(earn), address(farm));
+        vm.roll(5);
+        uint expected = hygt.getPriorVotes( address(this), 4 );
+        assertEq(expected ,0);
+    }
+
+    function test_delegate_7() public{
+        hygt.initialize( address(earn), address(farm));
+        hygt.mint(address(this), 100e18);
+        vm.roll(5);
+        hygt.delegate(address(1234));
+        vm.roll(10);
+        hygt.mint(address(this), 100e18);
+        hygt.delegate(address(1234));
+        hygt.mint(address(this), 100e18);
+        hygt.delegate(address(1234));
+        uint max= hygt.numCheckpoints(address(1234));
+        (, uint votes )=hygt.checkpoints(address(1234),max-1);
+        assertEq(votes,300000000000000000032);
+    }
+
+    // function test_PriorVotes_OnDelegate() public {
+    //     hygt.initialize(address(earn), address(farm));
+    //     hygt.delegate( address(123));
+    //     uint expected = hygt.getCurrentVotes(address(123));
+    //     console.log("expected------",expected);
     // }
 
-    function test_PriorVotes_OnDelegate() public {
-        hygt.initialize(address(earn), address(farm));
-        hygt.delegate( address(123));
-        uint expected = hygt.getCurrentVotes(address(123));
-        console.log("expected------",expected);
-    }
 
     //delegate
 }

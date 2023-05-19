@@ -87,46 +87,46 @@ contract Control is AccessControl, OpsReady {
 
     /* ========== CONSTRUCTOR ========== */
 
-    constructor ( )  {
-        _initializer = _msgSender();
-    }
-    // constructor(address USDT_,address factory_, address router, address WBNB_, address hydt_, address reserve_, uint256 initialMintStartTime_) {
+    // constructor ( )  {
     //     _initializer = _msgSender();
-    //     require(_msgSender() == _initializer, "Control: caller is not the initializer");
-    //     // TODO uncomment
-    //     require(!_isInitialized, "Control: already initialized");
-    //     PANCAKE_ROUTER= IPancakeRouter02(router);
-    //     USDT= USDT_;
-
-    //     // require(ops_ != address(0), "Control: invalid Ops address");
-    //     // require(taskCreator_ != address(0), "Control: invalid TaskCreator address");
-    //     require(hydt_ != address(0), "Control: invalid HYDT address");
-    //     require(reserve_ != address(0), "Control: invalid Reserve address");
-    //     // OPS = IOps(ops_);
-    //     // _gelato = IOps(ops_).gelato();
-    //     // (address dedicatedMsgSender, ) = IOpsProxyFactory(OPS_PROXY_FACTORY).getProxyOf(taskCreator_);
-
-    //     _grantRole(GOVERNOR_ROLE, _msgSender());
-    //     _grantRole(CALLER_ROLE, _msgSender());
-    //     // TODO future proofing needed?
-    //     _grantRole(DEFAULT_ADMIN_ROLE, _msgSender());
-    //     WBNB= WBNB_;
-    //     HYDT = IHYDT(hydt_);
-    //     RESERVE = IReserve(reserve_);
-
-    //     factory = factory_;
-    //     _initialMints.startTime = initialMintStartTime_;
-    //     _initialMints.endTime = initialMintStartTime_ + THREE_MONTHS_TIME;
-    //     _dailyInitialMints.startTime = initialMintStartTime_;
-    //     _dailyInitialMints.endTime = initialMintStartTime_ + ONE_DAY_TIME;
-
-    //     _delegateApprove(IERC20(hydt_), address(PANCAKE_ROUTER), true);
-    //     _delegateApprove(IERC20(WBNB), address(PANCAKE_ROUTER), true);
-
-    //     opsReadyState = false;
-
-    //     _isInitialized = true;
     // }
+    constructor(address USDT_,address factory_, address router, address WBNB_, address hydt_, address reserve_, uint256 initialMintStartTime_) {
+        _initializer = _msgSender();
+        require(_msgSender() == _initializer, "Control: caller is not the initializer");
+        // TODO uncomment
+        require(!_isInitialized, "Control: already initialized");
+        PANCAKE_ROUTER= IPancakeRouter02(router);
+        USDT= USDT_;
+
+        // require(ops_ != address(0), "Control: invalid Ops address");
+        // require(taskCreator_ != address(0), "Control: invalid TaskCreator address");
+        require(hydt_ != address(0), "Control: invalid HYDT address");
+        require(reserve_ != address(0), "Control: invalid Reserve address");
+        // OPS = IOps(ops_);
+        // _gelato = IOps(ops_).gelato();
+        // (address dedicatedMsgSender, ) = IOpsProxyFactory(OPS_PROXY_FACTORY).getProxyOf(taskCreator_);
+
+        _grantRole(GOVERNOR_ROLE, _msgSender());
+        _grantRole(CALLER_ROLE, _msgSender());
+        // TODO future proofing needed?
+        _grantRole(DEFAULT_ADMIN_ROLE, _msgSender());
+        WBNB= WBNB_;
+        HYDT = IHYDT(hydt_);
+        RESERVE = IReserve(reserve_);
+
+        factory = factory_;
+        _initialMints.startTime = initialMintStartTime_;
+        _initialMints.endTime = initialMintStartTime_ + THREE_MONTHS_TIME;
+        _dailyInitialMints.startTime = initialMintStartTime_;
+        _dailyInitialMints.endTime = initialMintStartTime_ + ONE_DAY_TIME;
+
+        _delegateApprove(IERC20(hydt_), address(PANCAKE_ROUTER), true);
+        _delegateApprove(IERC20(WBNB), address(PANCAKE_ROUTER), true);
+
+        opsReadyState = false;
+
+        _isInitialized = true;
+    }
 
     /* ========== INITIALIZE ========== */
 

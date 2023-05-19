@@ -1,0 +1,564 @@
+{
+	"compiler": {
+		"version": "0.8.19+commit.7dd6d404"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "caller",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amountBNB",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "totalReserveBNB",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "totalReserve",
+						"type": "uint256"
+					}
+				],
+				"name": "In",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "caller",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amountBNB",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "totalReserveBNB",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "totalReserve",
+						"type": "uint256"
+					}
+				],
+				"name": "Out",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "previousAdminRole",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "newAdminRole",
+						"type": "bytes32"
+					}
+				],
+				"name": "RoleAdminChanged",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "sender",
+						"type": "address"
+					}
+				],
+				"name": "RoleGranted",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					},
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "sender",
+						"type": "address"
+					}
+				],
+				"name": "RoleRevoked",
+				"type": "event"
+			},
+			{
+				"inputs": [],
+				"name": "CALLER_ROLE",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "DEFAULT_ADMIN_ROLE",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "USDT",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "WBNB",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "factory",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					}
+				],
+				"name": "getRoleAdmin",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "grantRole",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "hasRole",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "factory_",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "control_",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "USDT_",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "WBNB_",
+						"type": "address"
+					}
+				],
+				"name": "initialize",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "renounceRole",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "role",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "revokeRole",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes4",
+						"name": "interfaceId",
+						"type": "bytes4"
+					}
+				],
+				"name": "supportsInterface",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "withdraw",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"stateMutability": "payable",
+				"type": "receive"
+			}
+		],
+		"devdoc": {
+			"events": {
+				"RoleAdminChanged(bytes32,bytes32,bytes32)": {
+					"details": "Emitted when `newAdminRole` is set as ``role``'s admin role, replacing `previousAdminRole` `DEFAULT_ADMIN_ROLE` is the starting admin for all roles, despite {RoleAdminChanged} not being emitted signaling this. _Available since v3.1._"
+				},
+				"RoleGranted(bytes32,address,address)": {
+					"details": "Emitted when `account` is granted `role`. `sender` is the account that originated the contract call, an admin role bearer except when using {AccessControl-_setupRole}."
+				},
+				"RoleRevoked(bytes32,address,address)": {
+					"details": "Emitted when `account` is revoked `role`. `sender` is the account that originated the contract call:   - if using `revokeRole`, it is the admin role bearer   - if using `renounceRole`, it is the role bearer (i.e. `account`)"
+				}
+			},
+			"kind": "dev",
+			"methods": {
+				"getRoleAdmin(bytes32)": {
+					"details": "Returns the admin role that controls `role`. See {grantRole} and {revokeRole}. To change a role's admin, use {_setRoleAdmin}."
+				},
+				"grantRole(bytes32,address)": {
+					"details": "Grants `role` to `account`. If `account` had not been already granted `role`, emits a {RoleGranted} event. Requirements: - the caller must have ``role``'s admin role. May emit a {RoleGranted} event."
+				},
+				"hasRole(bytes32,address)": {
+					"details": "Returns `true` if `account` has been granted `role`."
+				},
+				"initialize(address,address,address,address)": {
+					"details": "This function can only be called once.",
+					"params": {
+						"control_": "The address of the `Control` contract."
+					}
+				},
+				"renounceRole(bytes32,address)": {
+					"details": "Revokes `role` from the calling account. Roles are often managed via {grantRole} and {revokeRole}: this function's purpose is to provide a mechanism for accounts to lose their privileges if they are compromised (such as when a trusted device is misplaced). If the calling account had been revoked `role`, emits a {RoleRevoked} event. Requirements: - the caller must be `account`. May emit a {RoleRevoked} event."
+				},
+				"revokeRole(bytes32,address)": {
+					"details": "Revokes `role` from `account`. If `account` had been granted `role`, emits a {RoleRevoked} event. Requirements: - the caller must have ``role``'s admin role. May emit a {RoleRevoked} event."
+				},
+				"supportsInterface(bytes4)": {
+					"details": "See {IERC165-supportsInterface}."
+				}
+			},
+			"stateVariables": {
+				"_initializer": {
+					"details": "Initialization variables."
+				}
+			},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {
+				"USDT()": {
+					"notice": "The address of the relevant stable token."
+				},
+				"WBNB()": {
+					"notice": "The address of the Wrapped BNB token."
+				},
+				"initialize(address,address,address,address)": {
+					"notice": "Initializes external dependencies and state variables."
+				},
+				"withdraw(uint256)": {
+					"notice": "Transfers BNB stored in this contract to the sender. Caller must have the `Caller` role."
+				}
+			},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"src/Reserve.sol": "Reserve"
+		},
+		"evmVersion": "paris",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"src/Reserve.sol": {
+			"keccak256": "0xbebf53a06b1993479b0076e670748cfddebb96d4a9abf3a17c2cccc000c558e8",
+			"license": "GNU GPLv3",
+			"urls": [
+				"bzz-raw://8e5304e8037d0f40c8f571992dffe85f5446fea7e32b36383413957d788f8a2b",
+				"dweb:/ipfs/Qmcpi1M9irFLnPA4uhSubDeY4fRAeqz4hPeZDXj3r5j1Lz"
+			]
+		},
+		"src/interfaces/IAccessControl.sol": {
+			"keccak256": "0x89c6c2a63dc6c357c6108de150ab329ad7f847f3ff00a35bcd55f769f4ebcad4",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://cadec590da43255289e7db8e08a0760869efa64c543dbd8af46690ce5295d497",
+				"dweb:/ipfs/QmZsPSyWeA3aZgDgtXMMx11wvTadrf5FzrxkWDbUfM11Ue"
+			]
+		},
+		"src/interfaces/IERC165.sol": {
+			"keccak256": "0x3213cb47aba4f8ba951dc5671d44e3559fecec1e9c402e679fbb5ada255fdff1",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://fc2296c533793e4c2a6eb4909bd2ca8e99044aff82e3fe2049092bd3f62034a3",
+				"dweb:/ipfs/QmVwAULUUqeXLdggzzW1C3hdNUZbqHoCskoGyfzZ5EKcwW"
+			]
+		},
+		"src/interfaces/IPancakeFactory.sol": {
+			"keccak256": "0x237b5ca725592046b8829930174947b5c05fe690d9616212b2ab8487353fd598",
+			"license": "GNU GPLv3",
+			"urls": [
+				"bzz-raw://2728fd3aa95a5272e2f1064790534048bc0473a08e38aab5eb102f927b5055be",
+				"dweb:/ipfs/QmT4dDyuwmZAHjaXj1U976MTp9MKn9RgzneEBtKEgKbtL2"
+			]
+		},
+		"src/interfaces/IPancakePair.sol": {
+			"keccak256": "0xbc7e1e6dc8738235baf2c56431c1a0c6ca6c29390d0aaf417c6f393e4c309c97",
+			"license": "GNU GPLv3",
+			"urls": [
+				"bzz-raw://5c6375a7955e69f9bad10629ecd16861cfd114dd0dfe2c6edbd4a91cbe2ea656",
+				"dweb:/ipfs/QmbMdwMQ68bsFM8TH2ie4j5i9SxRv5neZrp9jKw1vuBXY7"
+			]
+		},
+		"src/libraries/DataFetcher.sol": {
+			"keccak256": "0xf33246c6d3242accffeb97a16bd84c201892735b702851c7e7de06256c277738",
+			"license": "GNU GPLv3",
+			"urls": [
+				"bzz-raw://6331353bbb380042b2bf4a6210fd765a57b4a59771a6df76911b444f6753f302",
+				"dweb:/ipfs/QmbFwAwkrbGitEfwWZrnTx3WnfmiLmHzbY3wnEyb7A46Y7"
+			]
+		},
+		"src/libraries/Math.sol": {
+			"keccak256": "0xfc18275f00047f613f761247e4f3ec788843036f7f426b3fd3b74e251e45f7ae",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://acc7cebc92fed34db103599e2bde11669280f6e9062fc42d000969ee0e9e8443",
+				"dweb:/ipfs/QmQh4ArebQ7tuHEEPyHfeZKctXbC6zPRRnZ7bZM5GNkgh7"
+			]
+		},
+		"src/libraries/SafeETH.sol": {
+			"keccak256": "0xb0d19fce6393c0b914c72f52b0ad243f54a829c54620470bcb9e339c29736323",
+			"license": "GNU GPLv3",
+			"urls": [
+				"bzz-raw://f980f9a97312bdd6d9052684e58713bc5ac02235161752a36973154038c4f6ed",
+				"dweb:/ipfs/Qmd7AjqGvDbjdD7asiP7ejVUqTn5PJYW5Znhnpb4uawv71"
+			]
+		},
+		"src/libraries/SignedMath.sol": {
+			"keccak256": "0xb4a5f5f5222294665d6241a5c06558d4939617ebd0a49d1eb9c0e193fd19bdfe",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://be7f6a069d156446211053299916948102d357d813be42c5f1614885e71d81b3",
+				"dweb:/ipfs/QmfT2fs3cDWvfoekdfkUQ3ZMz4f8tc2hqnabipbfzW3Xqb"
+			]
+		},
+		"src/libraries/Strings.sol": {
+			"keccak256": "0xaa9c663292d9142e4f463d0f876b1b3813e409bdeb321470fb20573d9a68012b",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://2f7892745f43559c7f4351120ca6829fb71d40ea286268174dd84128657ee915",
+				"dweb:/ipfs/QmeT6d7KBXrNcyLGhtj6a5LLHbYHiVVXqQYA6pSNnp8ecH"
+			]
+		},
+		"src/utils/AccessControl.sol": {
+			"keccak256": "0x9e9604e591c7f14ea0f18f906494192375b28f2d614279f1dda876de4ee240b2",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://9e1e5fa779889491b77f631f931fad6ba3b10907766b41d56c42a37fbcbbc664",
+				"dweb:/ipfs/QmadpbPf3XFvdH1CVD17VcTmf7ScynmnjEwePFs2WBmGmU"
+			]
+		},
+		"src/utils/Context.sol": {
+			"keccak256": "0x2c36c9489879b7c91cdd73bbe8b2584f401aa26f4f252c04f053e824d6ca75c6",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://3ef20575fc12fd27f252acd28a8d0f65893832f29fd9c82f7ec165121af4572f",
+				"dweb:/ipfs/QmZMCoWWDTjhs1CNFMWv4JNWVyyeuzyqteCHhF4heCUYJJ"
+			]
+		},
+		"src/utils/ERC165.sol": {
+			"keccak256": "0x0ce3f9c6ef779f4e44ea727f31300501bf3c19af2b27264e1932aef9c70f9300",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://850c17304062747f819d5c5b30e0f004ad3f36aa55d8407883311bf2fd68caee",
+				"dweb:/ipfs/QmZcbvqF24EBStFacFZcganjH7f6Et4RGWYHjy4M5nHiHM"
+			]
+		}
+	},
+	"version": 1
+}

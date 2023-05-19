@@ -4,7 +4,6 @@ pragma solidity 0.8.19;
 
 import "./interfaces/IHYDT.sol";
 import "./interfaces/IHYGT.sol";
-import "./interfaces/IsHYDT.sol";
 
 import "./libraries/SafeERC20.sol";
 
@@ -26,17 +25,17 @@ contract Earn is AccessControl {
     /// @notice The address of the primary governance token.
     IHYGT public HYGT;
     /// @notice The address of the staking certificate token.
-    IsHYDT public sHYDT;
+    IHYDT public sHYDT;
     /// @notice The address of the secondary funds collection wallet.
     address public TREASURY;
 
     /// @notice Fee that is moved to the treasury on every deposit - magnified by 1e1.
     uint256 public depositFee;
-    /// @notice Percentage daily payouts (principal + yield) - magnified by 1e18.
+    /// @notice Percentage daily payouts in HYDT for each corresponding pool (principal + yield) - magnified by 1e18.
     uint256[] public dailyPayouts;
-    /// @notice Percentage yearly yields - magnified by 1e18.
+    /// @notice Percentage yearly yields in HYDT for each corresponding pool - magnified by 1e18.
     uint256[] public yearlyYields;
-    /// @notice Duration applied to each corresponding yield - in seconds.
+    /// @notice Time lock duration for each corresponding pool - in seconds.
     uint256[] public lockPeriods;
 
     /// @notice HYGT tokens created per second.
@@ -47,7 +46,7 @@ contract Earn is AccessControl {
     uint256 public totalAllocPoint;
 
     /// @dev Initialization variables.
-    address public immutable _initializer;
+    address private immutable _initializer;
     bool private _isInitialized;
 
     /* ========== STORAGE ========== */
@@ -97,7 +96,8 @@ contract Earn is AccessControl {
         uint256 amount,
         uint8 stakeType,
         uint256 startTime,
-        uint256 endTime
+        uint256 endTime,
+        uint256 activeDeposits
     );
     event Payout(address indexed user, uint256 index, uint256 payout);
     event Unstake(address indexed user, uint256 index, uint256 amount, uint256 activeDeposits);
@@ -134,7 +134,7 @@ contract Earn is AccessControl {
 
         HYDT = IHYDT(hydt_);
         HYGT = IHYGT(hygt_);
-        sHYDT = IsHYDT(shydt_);
+        sHYDT = IHYDT(shydt_);
         TREASURY = treasury_;
 
         depositFee = 15;
@@ -161,20 +161,20 @@ contract Earn is AccessControl {
     }
 
     // TODO remove this function
-    // function test_startTime(uint256 initialMintStartTime_) external {
-    //     startTime = initialMintStartTime_;
-    //     poolInfo[0].lastRewardTime = startTime;
-    //     poolInfo[0].lastRewardTime = startTime;
-    //     poolInfo[0].lastRewardTime = startTime;
-    // }
+    function test_startTime(uint256 initialMintStartTime_) external {
+        startTime = initialMintStartTime_;
+        poolInfo[0].lastRewardTime = startTime;
+        poolInfo[0].lastRewardTime = startTime;
+        poolInfo[0].lastRewardTime = startTime;
+    }
 
-    // // TODO remove this function
-    // function test_addresses(address HYDT_, address HYGT_, address sHYDT_, address treasury_) external {
-    //     HYDT = IHYDT(HYDT_);
-    //     HYGT = IHYGT(HYGT_);
-    //     sHYDT = IsHYDT(sHYDT_);
-    //     TREASURY = treasury_;
-    // }
+    // TODO remove this function
+    function test_addresses(address HYDT_, address HYGT_, address sHYDT_, address treasury_) external {
+        HYDT = IHYDT(HYDT_);
+        HYGT = IHYGT(HYGT_);
+        sHYDT = IHYDT(sHYDT_);
+        TREASURY = treasury_;
+    }
 
     /* ========== FUNCTIONS ========== */
 
@@ -229,16 +229,19 @@ contract Earn is AccessControl {
      * @notice Updates reward variables of the given pool to be up-to-date.
      * @param stakeType The unique id of the pool.
      */
-    function updatePool(uint8 stakeType) public {
+    function updatePool(uint8 stakeType) public returns (int256) {
         PoolInfo storage pool = poolInfo[stakeType];
+
         if (block.timestamp <= pool.lastRewardTime) {
-            return;
+            return -1;
         }
         uint256 stakeSupply = pool.stakeSupply;
+
         if (stakeSupply == 0) {
             pool.lastRewardTime = block.timestamp;
+
             poolShares[stakeType].push(PoolShare(stakeSupply, pool.accHYGTPerShare, block.timestamp));
-            return;
+            return -1;
         }
         uint256 numberOfSeconds = block.timestamp - pool.lastRewardTime;
         uint256 HYGTReward = (numberOfSeconds * HYGTPerSecond * pool.allocPoint) / totalAllocPoint;
@@ -250,14 +253,17 @@ contract Earn is AccessControl {
         share.accHYGTPerShare = pool.accHYGTPerShare;
         share.lastRewardTime = block.timestamp;
         poolShares[stakeType].push(share);
+
+        return int256(poolShares[stakeType].length - 1);
     }
 
-    function binarySearchShare(address user, uint256 index) internal view returns (PoolShare memory) {
+    function _binarySearchShare(address user, uint256 index) internal view returns (PoolShare memory) {
         Staking memory staking = getStakings[user][index];
         PoolShare[] memory shares = poolShares[staking.stakeType];
         uint256 endTime = block.timestamp > staking.endTime ? staking.endTime : block.timestamp;
+
         if (endTime < shares[0].lastRewardTime) {
-            return shares[0]; // set initial mint start time to future = 
+            return shares[0];
         } else if (endTime >= shares[shares.length - 1].lastRewardTime) {
             return shares[shares.length - 1];
         }
@@ -307,7 +313,6 @@ contract Earn is AccessControl {
     /**
      * @notice Gets the pending `HYGT` for a given user's specific stake index.
      */
-     
     function getPending(address user, uint256 index) public view returns (uint256) {
         uint256 pending;
         Staking memory staking = getStakings[user][index];
@@ -315,22 +320,18 @@ contract Earn is AccessControl {
 
         if (staking.status) {
             if (block.timestamp >= staking.endTime) {
-                PoolShare memory share = binarySearchShare(user, index);
+                PoolShare memory share = _binarySearchShare(user, index);
                 pool.stakeSupply = share.stakeSupply;
                 pool.accHYGTPerShare = share.accHYGTPerShare;
                 pool.lastRewardTime = share.lastRewardTime;
             }
             if (block.timestamp > pool.lastRewardTime && pool.stakeSupply != 0) {
                 uint256 endTime = block.timestamp > staking.endTime ? staking.endTime : block.timestamp;
-                uint256 numberOfSeconds = endTime - pool.lastRewardTime; // 1683711049 - 1683711049
-                                    // 3,709*          0.166666666666666667 * 1e18    //100     1000
-                uint256 HYGTReward = (numberOfSeconds * HYGTPerSecond * pool.allocPoint) / totalAllocPoint; // 91.66666666666666685
-                              // 0+ 61.8166666666666667903 / 98.5    
-                pool.accHYGTPerShare += (HYGTReward * 1e12) / pool.stakeSupply; //0.6275803722504230130994923857868
-            }           // 98.5         *       0.6275803722504230130994923857868
-            pending = ((staking.amount * pool.accHYGTPerShare) / 1e12) - staking.rewardDebt;  // 97.872419627749576986900507614213
-            //19.000000000000000018  // retest this value using 9.85 amount
-            // my res from test is 76883333333328950000
+                uint256 numberOfSeconds = endTime - pool.lastRewardTime;
+                uint256 HYGTReward = (numberOfSeconds * HYGTPerSecond * pool.allocPoint) / totalAllocPoint;
+                pool.accHYGTPerShare += (HYGTReward * 1e12) / pool.stakeSupply;
+            }
+            pending = ((staking.amount * pool.accHYGTPerShare) / 1e12) - staking.rewardDebt;
         }
         return pending;
     }
@@ -389,13 +390,11 @@ contract Earn is AccessControl {
         Staking memory staking = getStakings[user][index];
 
         if (staking.status) {
-                            // 1683634003     1683639503
             uint256 endTime = block.timestamp > staking.endTime ? staking.endTime : block.timestamp;
-            uint256 numberOfDays = (endTime - staking.lastClaimTime) / ONE_DAY_TIME; //60
-                // 5500
-                // 91
+            uint256 numberOfDays = (endTime - staking.lastClaimTime) / ONE_DAY_TIME;
+
             if (numberOfDays > 0) {
-                uint256 ratio = dailyPayouts[staking.stakeType]; // 1.156 * 1e18
+                uint256 ratio = dailyPayouts[staking.stakeType];
                 uint256 payoutPerDay = ((staking.amount * ratio) / 1e2) / 1e18;
                 payout = payoutPerDay * numberOfDays;
             }
@@ -416,24 +415,25 @@ contract Earn is AccessControl {
         sHYDT.mint(address(this), amountWithFee);
 
         PoolInfo storage pool = poolInfo[stakeType];
-        updatePool(stakeType);
+        int256 shareIndex = updatePool(stakeType);
         pool.stakeSupply += amountWithFee;
+        if (shareIndex >= 0) poolShares[stakeType][uint256(shareIndex)].stakeSupply += amountWithFee;
 
         Staking memory staking;
-        staking.index = getStakingLengths[_msgSender()]; // 0
-        staking.status = true; 
-        staking.amount = amountWithFee; /// 98500000000000000000
-        staking.stakeType = stakeType; // 0
-        staking.startTime = block.timestamp; // 1683705649
-        staking.endTime = block.timestamp + lockPeriods[stakeType]; // 1683711049
-        staking.lastClaimTime = block.timestamp; //1683705649
-        staking.rewardDebt = (amountWithFee * pool.accHYGTPerShare) / 1e12;  // 0
+        staking.index = getStakingLengths[_msgSender()];
+        staking.status = true;
+        staking.amount = amountWithFee;
+        staking.stakeType = stakeType;
+        staking.startTime = block.timestamp;
+        staking.endTime = block.timestamp + lockPeriods[stakeType];
+        staking.lastClaimTime = block.timestamp;
+        staking.rewardDebt = (amountWithFee * pool.accHYGTPerShare) / 1e12;
 
         getStakings[_msgSender()][staking.index] = staking;
         getStakingLengths[_msgSender()]++;
-        // uint256 activeDeposits = sHYDT.balanceOf(address(this));
+        uint256 activeDeposits = sHYDT.balanceOf(address(this));
 
-        emit Stake(_msgSender(), staking.index, staking.amount, staking.stakeType, staking.startTime, staking.endTime);
+        emit Stake(_msgSender(), staking.index, staking.amount, staking.stakeType, staking.startTime, staking.endTime, activeDeposits);
     }
 
     /**
@@ -445,8 +445,7 @@ contract Earn is AccessControl {
 
         require(staking.status, "Earn: invalid staking");
         uint256 amountMint = getPayout(_msgSender(), index);
-        updatePool(staking.stakeType);
-        
+        int256 shareIndex = updatePool(staking.stakeType);
         uint256 pending = getPending(_msgSender(), index);
 
         if (block.timestamp < staking.endTime) {
@@ -461,10 +460,12 @@ contract Earn is AccessControl {
         } else {
             uint256 stakingIndex = staking.index;
             uint256 stakingAmount = staking.amount;
+            uint256 stakingType = staking.stakeType;
             delete getStakings[_msgSender()][index];
             sHYDT.burn(stakingAmount);
 
             pool.stakeSupply -= stakingAmount;
+            if (shareIndex >= 0) poolShares[stakingType][uint256(shareIndex)].stakeSupply -= stakingAmount;
             uint256 activeDeposits = sHYDT.balanceOf(address(this));
 
             emit Unstake(_msgSender(), stakingIndex, stakingAmount, activeDeposits);

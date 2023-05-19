@@ -1,0 +1,77 @@
+{
+	"deploy": {
+		"VM:-": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"main:1": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"ropsten:3": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"rinkeby:4": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"kovan:42": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"goerli:5": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		},
+		"Custom": {
+			"linkReferences": {},
+			"autoDeployLib": true
+		}
+	},
+	"data": {
+		"bytecode": {
+			"functionDebugData": {
+				"@_104": {
+					"entryPoint": null,
+					"id": 104,
+					"parameterSlots": 0,
+					"returnSlots": 0
+				}
+			},
+			"generatedSources": [],
+			"linkReferences": {},
+			"object": "6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea2646970667358221220533b67ea1e70451f458a693b03063c04c816e2b5314dd7b1df37afdd66582b7864736f6c63430008130033",
+			"opcodes": "PUSH1 0x80 PUSH1 0x40 MSTORE CALLVALUE DUP1 ISZERO PUSH1 0xF JUMPI PUSH1 0x0 DUP1 REVERT JUMPDEST POP PUSH1 0x3F DUP1 PUSH1 0x1D PUSH1 0x0 CODECOPY PUSH1 0x0 RETURN INVALID PUSH1 0x80 PUSH1 0x40 MSTORE PUSH1 0x0 DUP1 REVERT INVALID LOG2 PUSH5 0x6970667358 0x22 SLT KECCAK256 MSTORE8 EXTCODESIZE PUSH8 0xEA1E70451F458A69 EXTCODESIZE SUB MOD EXTCODECOPY DIV 0xC8 AND 0xE2 0xB5 BALANCE 0x4D 0xD7 0xB1 0xDF CALLDATACOPY 0xAF 0xDD PUSH7 0x582B7864736F6C PUSH4 0x43000813 STOP CALLER ",
+			"sourceMap": "3639:524:0:-:0;;;3813:19;;;;;;;;;;3639:524;;;;;;"
+		},
+		"deployedBytecode": {
+			"functionDebugData": {},
+			"generatedSources": [],
+			"immutableReferences": {},
+			"linkReferences": {},
+			"object": "6080604052600080fdfea2646970667358221220533b67ea1e70451f458a693b03063c04c816e2b5314dd7b1df37afdd66582b7864736f6c63430008130033",
+			"opcodes": "PUSH1 0x80 PUSH1 0x40 MSTORE PUSH1 0x0 DUP1 REVERT INVALID LOG2 PUSH5 0x6970667358 0x22 SLT KECCAK256 MSTORE8 EXTCODESIZE PUSH8 0xEA1E70451F458A69 EXTCODESIZE SUB MOD EXTCODECOPY DIV 0xC8 AND 0xE2 0xB5 BALANCE 0x4D 0xD7 0xB1 0xDF CALLDATACOPY 0xAF 0xDD PUSH7 0x582B7864736F6C PUSH4 0x43000813 STOP CALLER ",
+			"sourceMap": "3639:524:0:-:0;;;;;"
+		},
+		"gasEstimates": {
+			"creation": {
+				"codeDepositCost": "12600",
+				"executionCost": "66",
+				"totalCost": "12666"
+			},
+			"internal": {
+				"_msgData()": "infinite",
+				"_msgSender()": "infinite"
+			}
+		},
+		"methodIdentifiers": {}
+	},
+	"abi": [
+		{
+			"inputs": [],
+			"stateMutability": "nonpayable",
+			"type": "constructor"
+		}
+	]
+}

@@ -37,12 +37,10 @@ contract sHYDT is AccessControl, ERC20, IsHYDT {
         require(_msgSender() == _initializer, "sHYDT: caller is not the initializer");
         // TODO uncomment
         // require(!_isInitialized, "sHYDT: already initialized");
-
         require(earn_ != address(0), "sHYDT: invalid Earn address");
         _grantRole(CALLER_ROLE, earn_);
         // TODO future proofing needed?
         _grantRole(DEFAULT_ADMIN_ROLE, _msgSender());
-
         _isInitialized = true;
     }
 
